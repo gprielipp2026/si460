@@ -1,0 +1,721 @@
+2077537              Aberdeen Proving Ground CDP                                                               
+19035                Aberdeen city                                                                             
+0                    Accident town                                                                             
+3546129              Accokeek CDP                                                                              
+2520                 Adamstown CDP                                                                             
+6498                 Adelphi CDP                                                                               
+5423537              Algonquin CDP                                                                             
+14954037             Allegany County                                                                           
+13773                Allen CDP                                                                                 
+91637                Andrews AFB CDP                                                                           
+11542019             Annapolis Neck CDP                                                                        
+2386432              Annapolis city                                                                            
+447805092            Anne Arundel County                                                                       
+0                    Antietam CDP                                                                              
+6042832              Aquasco CDP                                                                               
+9291                 Arbutus CDP                                                                               
+540472               Arden on the Severn CDP                                                                   
+7083546              Arnold CDP                                                                                
+260019               Ashton-Sandy Spring CDP                                                                   
+212439               Aspen Hill CDP                                                                            
+2213423              Baden CDP                                                                                 
+0                    Bagtown CDP                                                                               
+0                    Bakersville CDP                                                                           
+39127                Ballenger Creek CDP                                                                       
+216144619            Baltimore County                                                                          
+226093               Baltimore Highlands CDP                                                                   
+28768302             Baltimore city                                                                            
+28768302             Baltimore city                                                                            
+1304173592           Baltimore-Towson, MD Metro Area                                                           
+0                    Barclay town                                                                              
+2267                 Barnesville town                                                                          
+0                    Barrelville CDP                                                                           
+11361                Barton town                                                                               
+75824                Bartonsville CDP                                                                          
+0                    Beaver Creek CDP                                                                          
+4134                 Bel Air CDP                                                                               
+196293               Bel Air North CDP                                                                         
+187231               Bel Air South CDP                                                                         
+24752                Bel Air town                                                                              
+71596                Beltsville CDP                                                                            
+0                    Benedict CDP                                                                              
+2825                 Bensville CDP                                                                             
+262                  Berlin town                                                                               
+2328                 Berwyn Heights town                                                                       
+195635               Bethesda CDP                                                                              
+59182830             Bethesda-Rockville-Frederick, MD Metro Division                                           
+18585                Betterton town                                                                            
+10097                Bier CDP                                                                                  
+0                    Big Pool CDP                                                                              
+0                    Big Spring CDP                                                                            
+78473                Bishopville CDP                                                                           
+95865                Bivalve CDP                                                                               
+23713                Bladensburg town                                                                          
+63933                Bloomington CDP                                                                           
+12955                Boonsboro town                                                                            
+206143               Bowie city                                                                                
+7651537              Bowleys Quarters CDP                                                                      
+0                    Bowling Green CDP                                                                         
+0                    Bowmans Addition CDP                                                                      
+27616                Braddock Heights CDP                                                                      
+257993               Brandywine CDP                                                                            
+0                    Breathedsville CDP                                                                        
+0                    Brentwood town                                                                            
+347632               Brock Hall CDP                                                                            
+0                    Brookeville town                                                                          
+182874               Brooklyn Park CDP                                                                         
+1773126              Brookmont CDP                                                                             
+0                    Brookview town                                                                            
+22454                Broomes Island CDP                                                                        
+0                    Brownsville CDP                                                                           
+1131957              Brunswick city                                                                            
+4435                 Bryans Road CDP                                                                           
+3748                 Bryantown CDP                                                                             
+21929                Buckeystown CDP                                                                           
+10427                Burkittsville town                                                                        
+977164               Burtonsville CDP                                                                          
+18272                Butlertown CDP                                                                            
+1117061              Cabin John CDP                                                                            
+5720539              California CDP                                                                            
+0                    Calvert Beach CDP                                                                         
+341669638            Calvert County                                                                            
+52526                Calverton CDP                                                                             
+5953241              Cambridge city                                                                            
+1145393243           Cambridge, MD Micro Area                                                                  
+37232                Camp Springs CDP                                                                          
+1356057              Cape St. Claire CDP                                                                       
+1727                 Capitol Heights town                                                                      
+0                    Carlos CDP                                                                                
+6354                 Carney CDP                                                                                
+16789670             Caroline County                                                                           
+13190001             Carroll County                                                                            
+207704               Catonsville CDP                                                                           
+0                    Cavetown CDP                                                                              
+0                    Cearfoss CDP                                                                              
+185350813            Cecil County                                                                              
+0                    Cecilton town                                                                             
+300155               Cedarville CDP                                                                            
+7956                 Centreville town                                                                          
+2365119              Chance CDP                                                                                
+479715576            Charles County                                                                            
+834209               Charlestown town                                                                          
+23943                Charlotte Hall CDP                                                                        
+0                    Charlton CDP                                                                              
+218225               Chesapeake Beach town                                                                     
+479623               Chesapeake City town                                                                      
+502270               Chesapeake Ranch Estates CDP                                                              
+4424608              Chester CDP                                                                               
+795740               Chestertown town                                                                          
+1723                 Cheverly town                                                                             
+15123                Chevy Chase CDP                                                                           
+0                    Chevy Chase Section Five village                                                          
+0                    Chevy Chase Section Three village                                                         
+0                    Chevy Chase View town                                                                     
+0                    Chevy Chase Village town                                                                  
+0                    Chevy Chase town                                                                          
+0                    Chewsville CDP                                                                            
+84305                Chillum CDP                                                                               
+0                    Choptank CDP                                                                              
+909                  Church Creek town                                                                         
+0                    Church Hill town                                                                          
+38784                Clarksburg CDP                                                                            
+0                    Clarysville CDP                                                                           
+0                    Clear Spring town                                                                         
+199292               Clinton CDP                                                                               
+94273                Cloverly CDP                                                                              
+808196               Cobb Island CDP                                                                           
+362033               Cockeysville CDP                                                                          
+30268                Colesville CDP                                                                            
+96070                College Park city                                                                         
+116620               Colmar Manor town                                                                         
+667178               Columbia CDP                                                                              
+225373702            Congressional District 1                                                                  
+55681728             Congressional District 2                                                                  
+2860635              Congressional District 3                                                                  
+9423981              Congressional District 4                                                                  
+35000018             Congressional District 5                                                                  
+111807538            Congressional District 6                                                                  
+7965326              Congressional District 7                                                                  
+32944972             Congressional District 8                                                                  
+8753                 Coral Hills CDP                                                                           
+1342                 Cordova CDP                                                                               
+0                    Corriganville CDP                                                                         
+0                    Cottage City town                                                                         
+0                    Crellin CDP                                                                               
+60602                Cresaptown CDP                                                                            
+3717282              Crisfield city                                                                            
+0                    Crofton CDP                                                                               
+3149246              Croom CDP                                                                                 
+0                    Crownsville CDP                                                                           
+187409               Cumberland city                                                                           
+14954037             Cumberland, MD-WV Metro Area (part)                                                       
+48530                Damascus CDP                                                                              
+16478159             Dames Quarter CDP                                                                         
+1021                 Danville CDP                                                                              
+0                    Dargan CDP                                                                                
+0                    Darlington CDP                                                                            
+3388931              Darnestown CDP                                                                            
+7791                 Dawson CDP                                                                                
+6053989              Deal Island CDP                                                                           
+1694132              Deale CDP                                                                                 
+0                    Deer Park town                                                                            
+35035                Delmar town                                                                               
+564286               Denton town                                                                               
+5288                 Derwood CDP                                                                               
+0                    Detmold CDP                                                                               
+88                   District Heights city                                                                     
+1145393243           Dorchester County                                                                         
+0                    Downsville CDP                                                                            
+447912               Drum Point CDP                                                                            
+11184881             Dundalk CDP                                                                               
+1939408              Dunkirk CDP                                                                               
+0                    Eagle Harbor town                                                                         
+0                    Eakles Mill CDP                                                                           
+0                    East New Market town                                                                      
+0                    East Riverdale CDP                                                                        
+292496               Easton town                                                                               
+539409159            Easton, MD Micro Area                                                                     
+0                    Eckhart Mines CDP                                                                         
+136096               Eden CDP                                                                                  
+21092                Edesville CDP                                                                             
+25208085             Edgemere CDP                                                                              
+0                    Edgemont CDP                                                                              
+2168415              Edgewater CDP                                                                             
+358091               Edgewood CDP                                                                              
+29714                Edmonston town                                                                            
+6566297              Eldersburg CDP                                                                            
+10304                Eldorado town                                                                             
+26825                Elkridge CDP                                                                              
+677714               Elkton town                                                                               
+0                    Ellerslie CDP                                                                             
+317859               Ellicott City CDP                                                                         
+6805                 Elliott CDP                                                                               
+0                    Emmitsburg town                                                                           
+0                    Ernstville CDP                                                                            
+6825315              Essex CDP                                                                                 
+45838                Fairland CDP                                                                              
+302308               Fairlee CDP                                                                               
+12578594             Fairmount CDP                                                                             
+0                    Fairmount Heights town                                                                    
+0                    Fairplay CDP                                                                              
+0                    Fairview CDP                                                                              
+9657                 Fairwood CDP                                                                              
+72121                Fallston CDP                                                                              
+233296               Federalsburg town                                                                         
+0                    Ferndale CDP                                                                              
+0                    Finzel CDP                                                                                
+825458               Fishing Creek CDP                                                                         
+0                    Flintstone CDP                                                                            
+5216                 Forest Glen CDP                                                                           
+0                    Forest Heights town                                                                       
+0                    Forestville CDP                                                                           
+31874                Fort Meade CDP                                                                            
+68393                Fort Ritchie CDP                                                                          
+7194124              Fort Washington CDP                                                                       
+0                    Fountainhead-Orchard Hills CDP                                                            
+34435                Four Corners CDP                                                                          
+0                    Franklin CDP                                                                              
+18537350             Frederick County                                                                          
+532885               Frederick city                                                                            
+12005571             Frenchtown-Rumbly CDP                                                                     
+13186                Friendly CDP                                                                              
+0                    Friendship CDP                                                                            
+0                    Friendship Heights Village CDP                                                            
+0                    Friendsville town                                                                         
+9512                 Frostburg city                                                                            
+17190                Fruitland city                                                                            
+19824                Fulton CDP                                                                                
+0                    Funkstown town                                                                            
+370769               Gaithersburg city                                                                         
+0                    Galena town                                                                               
+53840                Galestown town                                                                            
+1008860              Galesville CDP                                                                            
+0                    Gambrills CDP                                                                             
+0                    Gapland CDP                                                                               
+22363466             Garrett County                                                                            
+0                    Garrett Park town                                                                         
+0                    Garretts Mill CDP                                                                         
+10181                Garrison CDP                                                                              
+14573                Georgetown CDP                                                                            
+288112               Germantown CDP                                                                            
+0                    Gilmore CDP                                                                               
+0                    Girdletree CDP                                                                            
+0                    Glassmanor CDP                                                                            
+1845757              Glen Burnie CDP                                                                           
+0                    Glen Echo town                                                                            
+0                    Glenarden city                                                                            
+59104                Glenmont CDP                                                                              
+283716               Glenn Dale CDP                                                                            
+2255550              Golden Beach CDP                                                                          
+27559                Goldsboro town                                                                            
+0                    Gorman CDP                                                                                
+0                    Grahamtown CDP                                                                            
+0                    Grantsville town                                                                          
+1971202              Grasonville CDP                                                                           
+142764               Greenbelt city                                                                            
+0                    Greensboro town                                                                           
+0                    Greensburg CDP                                                                            
+26533                Hagerstown city                                                                           
+24769174             Hagerstown-Martinsburg, MD-WV Metro Area (part)                                           
+0                    Halfway CDP                                                                               
+54205                Hampstead town                                                                            
+0                    Hampton CDP                                                                               
+52416                Hancock town                                                                              
+231943998            Harford County                                                                            
+3597090              Havre de Grace city                                                                       
+0                    Hebron town                                                                               
+0                    Henderson town                                                                            
+1986892              Herald Harbor CDP                                                                         
+0                    Highfield-Cascade CDP                                                                     
+23385                Highland Beach town                                                                       
+35269                Highland CDP                                                                              
+1699                 Hillandale CDP                                                                            
+8754                 Hillcrest Heights CDP                                                                     
+0                    Hillsboro town                                                                            
+6871682              Howard County                                                                             
+199584               Hughesville CDP                                                                           
+64772                Huntingtown CDP                                                                           
+580530               Hurlock town                                                                              
+0                    Hutton CDP                                                                                
+68936                Hyattsville city                                                                          
+160500               Ilchester CDP                                                                             
+0                    Indian Head town                                                                          
+0                    Indian Springs CDP                                                                        
+65227                Jarrettsville CDP                                                                         
+0                    Jefferson CDP                                                                             
+0                    Jennings CDP                                                                              
+13098                Jessup CDP                                                                                
+606249               Jesterville CDP                                                                           
+1703948              Joppatowne CDP                                                                            
+0                    Jugtown CDP                                                                               
+0                    Keedysville town                                                                          
+65460                Kemp Mill CDP                                                                             
+0                    Kemps Mill CDP                                                                            
+16851                Kennedyville CDP                                                                          
+0                    Kensington town                                                                           
+353313295            Kent County                                                                               
+5787745              Kent Narrows CDP                                                                          
+62932                Kettering CDP                                                                             
+809218               Kingstown CDP                                                                             
+174724               Kingsville CDP                                                                            
+69145                Kitzmiller town                                                                           
+0                    Klondike CDP                                                                              
+173608               Konterra CDP                                                                              
+129015               La Plata town                                                                             
+379                  La Vale CDP                                                                               
+156289               Lake Arbor CDP                                                                            
+10817005             Lake Shore CDP                                                                            
+13340                Landover CDP                                                                              
+0                    Landover Hills town                                                                       
+84                   Langley Park CDP                                                                          
+49260                Lanham CDP                                                                                
+329902               Lansdowne CDP                                                                             
+1371                 Largo CDP                                                                                 
+65235                Laurel city                                                                               
+21405                Layhill CDP                                                                               
+10510                Laytonsville town                                                                         
+21767                Leisure World CDP                                                                         
+0                    Leitersburg CDP                                                                           
+171771               Leonardtown town                                                                          
+27344                Lexington Park CDP                                                                        
+1054309969           Lexington Park, MD Micro Area                                                             
+14617                Libertytown CDP                                                                           
+644584               Linganore CDP                                                                             
+115916               Linthicum CDP                                                                             
+10089                Little Orleans CDP                                                                        
+0                    Loch Lynn Heights town                                                                    
+78216                Lochearn CDP                                                                              
+5898                 Lonaconing town                                                                           
+52907                Long Beach CDP                                                                            
+103293               Luke town                                                                                 
+429673               Lusby CDP                                                                                 
+0                    Lutherville CDP                                                                           
+105629               Madison CDP                                                                               
+13124                Manchester town                                                                           
+0                    Mapleville CDP                                                                            
+12254                Mardela Springs town                                                                      
+214163               Marlboro Meadows CDP                                                                      
+110293               Marlboro Village CDP                                                                      
+5547                 Marlow Heights CDP                                                                        
+38181                Marlton CDP                                                                               
+0                    Martin's Additions village                                                                
+0                    Marydel town                                                                              
+13295214             Maryland                                                                                  
+31799549             Maryland                                                                                  
+3239366263           Maryland                                                                                  
+3271165812           Maryland                                                                                  
+3312652128           Maryland                                                                                  
+3325947342           Maryland                                                                                  
+392466431            Maryland                                                                                  
+6597113154           Maryland                                                                                  
+6989579585           Maryland                                                                                  
+0                    Maryland City CDP                                                                         
+0                    Maugansville CDP                                                                          
+9896865              Mayo CDP                                                                                  
+9012                 Mays Chapel CDP                                                                           
+0                    McCoole CDP                                                                               
+15796                Mechanicsville CDP                                                                        
+13198                Melwood CDP                                                                               
+0                    Mercersville CDP                                                                          
+1893209              Middle River CDP                                                                          
+0                    Middleburg CDP                                                                            
+10035                Middletown town                                                                           
+0                    Midland town                                                                              
+0                    Midlothian CDP                                                                            
+28899                Milford Mill CDP                                                                          
+61785                Millington town                                                                           
+54959                Mitchellville CDP                                                                         
+2656                 Monrovia CDP                                                                              
+40645480             Montgomery County                                                                         
+167273               Montgomery Village CDP                                                                    
+1987                 Morningside town                                                                          
+11827                Moscow CDP                                                                                
+0                    Mount Aetna CDP                                                                           
+30595                Mount Airy town                                                                           
+0                    Mount Briar CDP                                                                           
+0                    Mount Lena CDP                                                                            
+0                    Mount Rainier city                                                                        
+0                    Mount Savage CDP                                                                          
+6790430              Mount Vernon CDP                                                                          
+182606               Mountain Lake Park town                                                                   
+2408                 Myersville town                                                                           
+0                    Nanticoke Acres CDP                                                                       
+20656                Nanticoke CDP                                                                             
+4748                 National CDP                                                                              
+1040005              National Harbor CDP                                                                       
+824698               Naval Academy CDP                                                                         
+0                    New Carrollton city                                                                       
+0                    New Market town                                                                           
+23553                New Windsor town                                                                          
+42614                Newark CDP                                                                                
+0                    Nikep CDP                                                                                 
+36636                North Beach town                                                                          
+38292                North Bethesda CDP                                                                        
+0                    North Brentwood town                                                                      
+0                    North Chevy Chase village                                                                 
+118514               North East town                                                                           
+28453                North Kensington CDP                                                                      
+107938               North Laurel CDP                                                                          
+108846               North Potomac CDP                                                                         
+22955                Oakland town                                                                              
+0                    Ocean CDP                                                                                 
+82764176             Ocean City town                                                                           
+7022133              Ocean Pines CDP                                                                           
+586834971            Ocean Pines, MD Micro Area                                                                
+0                    Odenton CDP                                                                               
+0                    Oldtown CDP                                                                               
+125391               Olney CDP                                                                                 
+0                    Overlea CDP                                                                               
+32335                Owings CDP                                                                                
+100231               Owings Mills CDP                                                                          
+746407               Oxford town                                                                               
+34604                Oxon Hill CDP                                                                             
+0                    Paramount-Long Meadow CDP                                                                 
+0                    Parkville CDP                                                                             
+4045209              Parole CDP                                                                                
+6538                 Parsonsburg CDP                                                                           
+3050936              Pasadena CDP                                                                              
+0                    Pecktonville CDP                                                                          
+0                    Peppermill Village CDP                                                                    
+6028                 Perry Hall CDP                                                                            
+155772               Perryman CDP                                                                              
+19700                Perryville town                                                                           
+185350813            Philadelphia-Camden-Vineland, PA-NJ-DE-MD CSA (part)                                      
+185350813            Philadelphia-Camden-Wilmington, PA-NJ-DE-MD Metro Area (part)                             
+69230                Pikesville CDP                                                                            
+0                    Pinesburg CDP                                                                             
+887427               Piney Point CDP                                                                           
+1369                 Pittsville town                                                                           
+0                    Pleasant Grove CDP                                                                        
+24608                Pleasant Hills CDP                                                                        
+652711               Pocomoke City city                                                                        
+0                    Point of Rocks CDP                                                                        
+0                    Pomfret CDP                                                                               
+0                    Pondsville CDP                                                                            
+47397                Poolesville town                                                                          
+12591                Port Deposit town                                                                         
+2463                 Port Tobacco Village town                                                                 
+3788184              Potomac CDP                                                                               
+639905               Potomac Heights CDP                                                                       
+0                    Potomac Park CDP                                                                          
+32972                Powellville CDP                                                                           
+9947                 Preston town                                                                              
+10281                Prince Frederick CDP                                                                      
+41816219             Prince George's County                                                                    
+43311                Princess Anne town                                                                        
+17303                Pylesville CDP                                                                            
+0                    Quantico CDP                                                                              
+55817                Queen Anne CDP                                                                            
+5995                 Queen Anne town                                                                           
+359449898            Queen Anne's County                                                                       
+33266                Queenland CDP                                                                             
+0                    Queenstown town                                                                           
+35463                Randallstown CDP                                                                          
+6950                 Rawlings CDP                                                                              
+454037               Redland CDP                                                                               
+0                    Reid CDP                                                                                  
+11731                Reisterstown CDP                                                                          
+0                    Ridgely town                                                                              
+0                    Ringgold CDP                                                                              
+19537                Rising Sun town                                                                           
+1155221              Riva CDP                                                                                  
+65257                Riverdale Park town                                                                       
+29257                Riverside CDP                                                                             
+1493343              Riviera Beach CDP                                                                         
+0                    Robinwood CDP                                                                             
+553692               Rock Hall town                                                                            
+0                    Rock Point CDP                                                                            
+158810               Rockville city                                                                            
+0                    Rohrersville CDP                                                                          
+43666                Rosaryville CDP                                                                           
+639539               Rosedale CDP                                                                              
+2944                 Rosemont village                                                                          
+68428                Rossville CDP                                                                             
+0                    Sabillasville CDP                                                                         
+1205963              Salisbury city                                                                            
+819533933            Salisbury, MD Metro Area                                                                  
+1406368904           Salisbury-Ocean Pines, MD CSA                                                             
+0                    San Mar CDP                                                                               
+0                    Sandy Hook CDP                                                                            
+13759                Savage CDP                                                                                
+952905               Scaggsville CDP                                                                           
+5483                 Seabrook CDP                                                                              
+0                    Seat Pleasant city                                                                        
+0                    Secretary town                                                                            
+0                    Severn CDP                                                                                
+7391221              Severna Park CDP                                                                          
+3229742              Shady Side CDP                                                                            
+26763                Shaft CDP                                                                                 
+0                    Sharpsburg town                                                                           
+134323               Sharptown town                                                                            
+1481                 Silver Hill CDP                                                                           
+75907                Silver Spring CDP                                                                         
+12504987             Smith Island CDP                                                                          
+17612                Smithsburg town                                                                           
+287071               Snow Hill town                                                                            
+892478               Solomons CDP                                                                              
+752725351            Somerset County                                                                           
+0                    Somerset town                                                                             
+94409                South Kensington CDP                                                                      
+88305                South Laurel CDP                                                                          
+7772                 Spencerville CDP                                                                          
+0                    Spring Gap CDP                                                                            
+78827                Spring Ridge CDP                                                                          
+0                    Springdale CDP                                                                            
+667273               St. George Island CDP                                                                     
+0                    St. James CDP                                                                             
+85388                St. Leonard CDP                                                                           
+1054309969           St. Mary's County                                                                         
+258901               St. Michaels town                                                                         
+442120524            State House Districts not defined (Anne Arundel County)                                   
+190446277            State House Districts not defined (Baltimore County)                                      
+27599431             State House Districts not defined (Baltimore city)                                        
+334383419            State House Districts not defined (Calvert County)                                        
+176477294            State House Districts not defined (Cecil County)                                          
+473406213            State House Districts not defined (Charles County)                                        
+1058298427           State House Districts not defined (Dorchester County)                                     
+167845088            State House Districts not defined (Harford County)                                        
+311155194            State House Districts not defined (Kent County)                                           
+33408106             State House Districts not defined (Prince George's County)                                
+323138510            State House Districts not defined (Queen Anne's County)                                   
+733923529            State House Districts not defined (Somerset County)                                       
+1035250668           State House Districts not defined (St. Mary's County)                                     
+462041207            State House Districts not defined (Talbot County)                                         
+96894                State House Districts not defined (Washington County)                                     
+36835912             State House Districts not defined (Wicomico County)                                       
+569021087            State House Districts not defined (Worcester County)                                      
+314643               State Legislative District 10                                                             
+5300064              State Legislative District 11                                                             
+4660729              State Legislative District 13                                                             
+4532044              State Legislative District 14                                                             
+28019862             State Legislative District 15                                                             
+5028223              State Legislative District 16                                                             
+674922               State Legislative District 17                                                             
+248381               State Legislative District 18                                                             
+1080413              State Legislative District 19                                                             
+144340               State Legislative District 20                                                             
+884370               State Legislative District 21                                                             
+494760               State Legislative District 22                                                             
+197460               State Legislative District 24                                                             
+494992               State Legislative District 25                                                             
+396760               State Legislative District 26                                                             
+6285206              State Legislative District 28                                                             
+1383510              State Legislative District 30                                                             
+1465931              State Legislative District 31                                                             
+261144               State Legislative District 32                                                             
+89144409             State Legislative District 36                                                             
+917295               State Legislative District 39                                                             
+359804               State Legislative District 40                                                             
+53203                State Legislative District 41                                                             
+3158614              State Legislative District 42                                                             
+319404               State Legislative District 43                                                             
+91671                State Legislative District 44                                                             
+7780                 State Legislative District 45                                                             
+337009               State Legislative District 46                                                             
+385162               State Legislative District 47                                                             
+950181               State Legislative District 6                                                              
+8450618              State Legislative District 7                                                              
+43199                State Legislative District 8                                                              
+901973               State Legislative Subdistrict 12A                                                         
+257863               State Legislative Subdistrict 12B                                                         
+23328916             State Legislative Subdistrict 1A                                                          
+3088060              State Legislative Subdistrict 1B                                                          
+21484631             State Legislative Subdistrict 1C                                                          
+1528022              State Legislative Subdistrict 23A                                                         
+783020               State Legislative Subdistrict 23B                                                         
+6855280              State Legislative Subdistrict 27A                                                         
+2199341              State Legislative Subdistrict 27B                                                         
+5962810              State Legislative Subdistrict 29A                                                         
+11257057             State Legislative Subdistrict 29B                                                         
+3431167              State Legislative Subdistrict 29C                                                         
+1678432              State Legislative Subdistrict 2A                                                          
+8003941              State Legislative Subdistrict 2B                                                          
+26533                State Legislative Subdistrict 2C                                                          
+188223               State Legislative Subdistrict 33A                                                         
+2293349              State Legislative Subdistrict 33B                                                         
+48645334             State Legislative Subdistrict 34A                                                         
+2517202              State Legislative Subdistrict 34B                                                         
+14958182             State Legislative Subdistrict 35A                                                         
+170344               State Legislative Subdistrict 35B                                                         
+10170928             State Legislative Subdistrict 37A                                                         
+192870147            State Legislative Subdistrict 37B                                                         
+22120707             State Legislative Subdistrict 38A                                                         
+18283806             State Legislative Subdistrict 38B                                                         
+1651144              State Legislative Subdistrict 3A                                                          
+15558313             State Legislative Subdistrict 3B                                                          
+5688872              State Legislative Subdistrict 4A                                                          
+1334056              State Legislative Subdistrict 4B                                                          
+3105445              State Legislative Subdistrict 5A                                                          
+7109706              State Legislative Subdistrict 5B                                                          
+1824107              State Legislative Subdistrict 9A                                                          
+8768791              State Legislative Subdistrict 9B                                                          
+47901607             State Senate District 1                                                                   
+314643               State Senate District 10                                                                  
+5300064              State Senate District 11                                                                  
+1159836              State Senate District 12                                                                  
+4660729              State Senate District 13                                                                  
+4532044              State Senate District 14                                                                  
+28019862             State Senate District 15                                                                  
+5028223              State Senate District 16                                                                  
+674922               State Senate District 17                                                                  
+248381               State Senate District 18                                                                  
+1080413              State Senate District 19                                                                  
+9708906              State Senate District 2                                                                   
+144340               State Senate District 20                                                                  
+884370               State Senate District 21                                                                  
+494760               State Senate District 22                                                                  
+2311042              State Senate District 23                                                                  
+197460               State Senate District 24                                                                  
+494992               State Senate District 25                                                                  
+396760               State Senate District 26                                                                  
+9054621              State Senate District 27                                                                  
+6285206              State Senate District 28                                                                  
+20651034             State Senate District 29                                                                  
+17209457             State Senate District 3                                                                   
+1383510              State Senate District 30                                                                  
+1465931              State Senate District 31                                                                  
+261144               State Senate District 32                                                                  
+2481572              State Senate District 33                                                                  
+51162536             State Senate District 34                                                                  
+15128526             State Senate District 35                                                                  
+89144409             State Senate District 36                                                                  
+203041075            State Senate District 37                                                                  
+40404513             State Senate District 38                                                                  
+917295               State Senate District 39                                                                  
+7022928              State Senate District 4                                                                   
+359804               State Senate District 40                                                                  
+53203                State Senate District 41                                                                  
+3158614              State Senate District 42                                                                  
+319404               State Senate District 43                                                                  
+91671                State Senate District 44                                                                  
+7780                 State Senate District 45                                                                  
+337009               State Senate District 46                                                                  
+385162               State Senate District 47                                                                  
+10215151             State Senate District 5                                                                   
+950181               State Senate District 6                                                                   
+8450618              State Senate District 7                                                                   
+43199                State Senate District 8                                                                   
+10592898             State Senate District 9                                                                   
+442120524            State Senate Districts not defined (Anne Arundel County)                                  
+190446277            State Senate Districts not defined (Baltimore County)                                     
+27599431             State Senate Districts not defined (Baltimore city)                                       
+334383419            State Senate Districts not defined (Calvert County)                                       
+176477294            State Senate Districts not defined (Cecil County)                                         
+473406213            State Senate Districts not defined (Charles County)                                       
+1058298427           State Senate Districts not defined (Dorchester County)                                    
+167845088            State Senate Districts not defined (Harford County)                                       
+311155194            State Senate Districts not defined (Kent County)                                          
+33408106             State Senate Districts not defined (Prince George's County)                               
+323138510            State Senate Districts not defined (Queen Anne's County)                                  
+733923529            State Senate Districts not defined (Somerset County)                                      
+1035250668           State Senate Districts not defined (St. Mary's County)                                    
+462041207            State Senate Districts not defined (Talbot County)                                        
+96894                State Senate Districts not defined (Washington County)                                    
+36835912             State Senate Districts not defined (Wicomico County)                                      
+569021087            State Senate Districts not defined (Worcester County)                                     
+0                    Stevensville CDP                                                                          
+10563                Stockton CDP                                                                              
+0                    Sudlersville town                                                                         
+2053                 Suitland CDP                                                                              
+28844                Summerfield CDP                                                                           
+0                    Swanton CDP                                                                               
+9742                 Sykesville town                                                                           
+13926                Takoma Park city                                                                          
+539409159            Talbot County                                                                             
+382934               Tall Timbers CDP                                                                          
+18233                Taneytown city                                                                            
+51001                Taylors Island CDP                                                                        
+0                    Temple Hills CDP                                                                          
+0                    Templeville town                                                                          
+14950                Thurmont town                                                                             
+361539               Tilghman Island CDP                                                                       
+0                    Tilghmanton CDP                                                                           
+7232                 Timonium CDP                                                                              
+14899                Tolchester CDP                                                                            
+353243               Towson CDP                                                                                
+0                    Trappe town                                                                               
+3775899              Travilah CDP                                                                              
+0                    Trego-Rohrersville Station CDP                                                            
+2092                 Tyaskin CDP                                                                               
+17493                Union Bridge town                                                                         
+0                    University Park town                                                                      
+63906                Upper Marlboro town                                                                       
+162969               Urbana CDP                                                                                
+12751                Vale Summit CDP                                                                           
+0                    Vienna town                                                                               
+681559               Waldorf CDP                                                                               
+4954                 Walker Mill CDP                                                                           
+16121                Walkersville town                                                                         
+24769174             Washington County                                                                         
+4227                 Washington Grove town                                                                     
+922384263            Washington-Arlington-Alexandria, DC-VA-MD-WV Metro Area (part)                            
+863201433            Washington-Arlington-Alexandria, DC-VA-MD-WV Metro Division (part)                        
+3280867824           Washington-Baltimore-Northern Virginia, DC-MD-VA-WV CSA (part)                            
+13226                Waterview CDP                                                                             
+0                    West Denton CDP                                                                           
+263974               West Laurel CDP                                                                           
+7344006              West Ocean City CDP                                                                       
+546591               West Pocomoke CDP                                                                         
+62012                Westernport town                                                                          
+34092                Westminster city                                                                          
+69122                Westphalia CDP                                                                            
+1938                 Whaleyville CDP                                                                           
+98099                Wheaton CDP                                                                               
+62255                White Marsh CDP                                                                           
+3348                 White Oak CDP                                                                             
+5591                 Whitehaven CDP                                                                            
+66808582             Wicomico County                                                                           
+0                    Willards town                                                                             
+0                    Williamsport town                                                                         
+0                    Williston CDP                                                                             
+185350813            Wilmington, DE-MD-NJ Metro Division (part)                                                
+324224               Wilson-Conococheague CDP                                                                  
+0                    Woodland CDP                                                                              
+6299                 Woodlawn CDP                                                                              
+82070                Woodlawn CDP                                                                              
+164704               Woodmore CDP                                                                              
+7525                 Woodsboro town                                                                            
+586834971            Worcester County                                                                          
+60463                Worton CDP                                                                                
+0                    Yarrowsburg CDP                                                                           
+0                    Zihlman CDP                                                                               
