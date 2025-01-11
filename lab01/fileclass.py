@@ -19,7 +19,7 @@ class census:
         return line[a:b].strip() 
 
     def coords(self, line):
-        tosplit = line[327:372].strip() 
+        tosplit = line[328:373].strip() 
         latInd = line.index('.') - 3
         longInd = line.index('.', latInd + 4) - 4
         endLong = line.index(' ', longInd) 
@@ -38,7 +38,7 @@ class census:
 
         fd.close()
 
-        self.districts = sorted(self.districts, key=lambda a: a[1])
+        self.districts = sorted(self.districts, key=lambda a: a[1]+" "+a[0])
 
 
     def display(self):
@@ -60,29 +60,17 @@ class census:
                 break
 
     def saveKML(self, fn):
-        file = open(fn, 'w')
-        file.write('<?xml version="1.0" endcoding="UTF-8"?>\n')
-        file.write('<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">\n')
-        file.write('<Document> id="1"')
-        id_ = 2
-        for num, district, (lat, lon) in self.districts:
-            #lat = 'N'+lat[1:] if lat[0] == '+' else 'S'+lat[1:] 
-            #lon = 'W'+lat[1:] if lon[0] == '+' else 'E'+lon[1:] 
+        from kml import KML, Placemark, Point, SimpleAttr
        
-            file.write(f'\t<Placemark id="{id_+1}">\n')
-            file.write(f'\t\t<name>{district}</name>\n')
-            file.write(f'\t\t<Point id="{id_}">\n')
-            file.write(f'\t\t\t<latitude>{lat}</latitude>\n')
-            file.write(f'\t\t\t<longitude>{lon}</longitude>\n')
-            file.write(f'\t\t</Point>\n')
-            file.write('\t</Placemark>\n')
-            id_ += 2 
-
-        file.write('</Document>\n')
-        file.write('</kml>')
-        
-        file.close()
-    
+        k = KML(fn)
+        placemarks = 0
+        for num, dist, coords in self.districts:
+            name = SimpleAttr('name', dist)
+            point = Point(coords)
+            placemark = Placemark(placemarks, name, point)
+            k.addEntity(placemark)
+            placemarks += 1
+        k.saveKML()
 
 if __name__ == '__main__':
     mycensus = census('mdgeo2010.dp')

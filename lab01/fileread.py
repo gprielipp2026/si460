@@ -47,6 +47,6 @@ else:
 
 districts = parse(fn)
 
-districts = sorted(districts, key=lambda a: a[1])
+districts = sorted(districts, key=lambda a: a[1]+" "+a[0])
 
 display(districts)
