@@ -513,7 +513,7 @@
 	<Placemark id="85">
 		<name>Cape St. Claire CDP</name>
 		<Point>
-			<coordinates>+39.0436339-076.445338957, St. Claire CDP                                                                       S!     8747     331,0</coordinates>
+			<coordinates>-076.445338957,39.0436339,0</coordinates>
 		</Point>
 	</Placemark>
 	<Placemark id="86">
@@ -3027,31 +3027,31 @@
 	<Placemark id="504">
 		<name>St. George Island CDP</name>
 		<Point>
-			<coordinates>+38.1155404-076.476964957,3St. George Island CDP                                                                     S!      257      15,0</coordinates>
+			<coordinates>-076.476964957,38.1155404,0</coordinates>
 		</Point>
 	</Placemark>
 	<Placemark id="505">
 		<name>St. James CDP</name>
 		<Point>
-			<coordinates>+39.5738146-077.748244157,0St. James CDP                                                                             S!     2953     108,0</coordinates>
+			<coordinates>-077.748244157,39.5738146,0</coordinates>
 		</Point>
 	</Placemark>
 	<Placemark id="506">
 		<name>St. Leonard CDP</name>
 		<Point>
-			<coordinates>+38.4673110-076.498575857,8St. Leonard CDP                                                                           S!      742      25,0</coordinates>
+			<coordinates>-076.498575857,38.4673110,0</coordinates>
 		</Point>
 	</Placemark>
 	<Placemark id="507">
 		<name>St. Mary's County</name>
 		<Point>
-			<coordinates>+38.2226660-076.534270506,9St. Mary's County                                                                         A!   105151    4128,0</coordinates>
+			<coordinates>-076.534270506,38.2226660,0</coordinates>
 		</Point>
 	</Placemark>
 	<Placemark id="508">
 		<name>St. Michaels town</name>
 		<Point>
-			<coordinates>+38.7884773-076.222674743,1St. Michaels town                                                                         A!     1029      71,0</coordinates>
+			<coordinates>-076.222674743,38.7884773,0</coordinates>
 		</Point>
 	</Placemark>
 	<Placemark id="509">
@@ -3129,7 +3129,7 @@
 	<Placemark id="521">
 		<name>State House Districts not defined (St. Mary's County)</name>
 		<Point>
-			<coordinates>+38.1357596-076.456092900,(St. Mary's County)                                     F         0        ,0</coordinates>
+			<coordinates>-076.456092900,38.1357596,0</coordinates>
 		</Point>
 	</Placemark>
 	<Placemark id="522">
@@ -3903,7 +3903,7 @@
 	<Placemark id="650">
 		<name>State Senate Districts not defined (St. Mary's County)</name>
 		<Point>
-			<coordinates>+38.1357596-076.456092900,(St. Mary's County)                                    F         0        ,0</coordinates>
+			<coordinates>-076.456092900,38.1357596,0</coordinates>
 		</Point>
 	</Placemark>
 	<Placemark id="651">
