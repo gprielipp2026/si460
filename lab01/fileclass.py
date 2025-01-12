@@ -23,7 +23,7 @@ class census:
         latInd = line.index('.', 328) - 3
         longInd = line.index('.', latInd + 4) - 4
         endLong = line.index(' ', longInd) 
-        print(tosplit, latInd, longInd, endLong, line[latInd:longInd], line[longInd:endLong])
+        #print(tosplit, latInd, longInd, endLong, line[latInd:longInd], line[longInd:endLong])
         return (line[latInd:longInd], line[longInd:endLong])
 
     def parse(self, fn: str) -> list[tuple]:
@@ -33,7 +33,7 @@ class census:
 
         for line in fd.readlines():
             data = self.getdata(line)
-            print(self.coords(line))
+            #print(self.coords(line))
             self.districts.append( (*self.separate(data), self.coords(line)) )
 
         fd.close()
