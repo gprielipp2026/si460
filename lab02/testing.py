@@ -71,12 +71,12 @@ class TestNormal:
         print('Testing Normal')
         v, u, a, b, n, m, c = self.v, self.u, self.a, self.b, self.n, self.m, self.c
 
-        test('Printing', str(self.roundNDArray(n.v)), '[0.8452 0.5071 0.169 ]')
-        test('Normal + Normal', str(self.roundNDArray((n + m).v)), '[1.6469 1.0416 0.4363]')
-        test('Normal.dot(Vector3D)', str(round(n.dot(u), 4)), '6.9303')
-        test('Scalar Multiplication', str(self.roundNDArray((n*c).v)), '[1.6903 1.0142 0.3381]')
-        test('Normal + Vector3D', str( self.roundNDArray((n + u).v) ), '[4.8452 5.5071 6.169 ]')
-        test('Vector3D + Normal', str( self.roundNDArray((u + n).v) ), '[4.8452 5.5071 6.169 ]')
+        test('Printing', str(self.roundNDArray(n.v)), '[5. 3. 1.]')
+        test('Normal + Normal', str(self.roundNDArray((n + m).v)), '[11.  7.  3.]')
+        test('Normal.dot(Vector3D)', str(round(n.dot(u), 4)), '41.0')
+        test('Scalar Multiplication', str(self.roundNDArray((n*c).v)), '[10.  6.  2.]')
+        test('Normal + Vector3D', str( self.roundNDArray((n + u).v) ), '[9. 8. 7.]')
+        test('Vector3D + Normal', str( self.roundNDArray((u + n).v) ), '[9. 8. 7.]')
 
         print()
 

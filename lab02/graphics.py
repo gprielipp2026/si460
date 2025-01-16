@@ -98,8 +98,8 @@ class Normal:
             self.v = v
         elif len(args) == 2:
             self.v = numpy.array([v, args[0], args[1]], dtype='float64')
-            mag = numpy.sqrt((self.v * self.v).sum())
-            self.v = self.v / mag
+            #mag = numpy.sqrt((self.v * self.v).sum())
+            #self.v = self.v / mag
         else:
             raise Exception('invalid arguments passed to Normal')
     def __str__(self):
@@ -137,3 +137,5 @@ if __name__ == '__main__':
     tests = [eval('testing.'+x+'()') for x in dir(testing) if isclass(getattr(testing, x))]
     for test in tests:
         test.run()
+
+
