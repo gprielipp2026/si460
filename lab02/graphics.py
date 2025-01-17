@@ -152,8 +152,7 @@ class Normal:
         if type(other) in [int, float]:
             return Normal(self.v * other)
         else:
-            raise Exception(f'Cannot scalar multiply a Normal with a
-            {type(other)}')
+            raise Exception(f'Cannot scalar multiply a Normal with a {type(other)}')
     
     # convenient notation to allow the scalar and dot product to piggyback on
     # the '*' operator
