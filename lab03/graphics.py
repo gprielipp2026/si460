@@ -258,7 +258,7 @@ class ColorRGB:
 
     # divide the color by a scalar value
     def __truediv__(self, scalar):
-        if not type(other) is float:
+        if not type(scalar) in scalars:
             raise Exception(f'Cannot divide a ColorRGB by a {type(other)}')
         elif scalar == 0:
             raise Exception('Cannot divide by zero')
