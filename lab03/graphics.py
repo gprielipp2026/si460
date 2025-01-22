@@ -4,6 +4,9 @@
 import numpy
 
 import math
+
+scalars = [int, float, numpy.float64]
+
 # The beginnings of a Vector3D
 class Vector3D:
     def __init__(self, val, *args):
@@ -14,6 +17,9 @@ class Vector3D:
         else:
             raise Exception("Invalid Arguments to Vector3D")
     
+    def __repr__(self):
+        return str(self.v)
+
     def __str__(self):
         return str(self.v)
    
@@ -41,15 +47,17 @@ class Vector3D:
     # Allows the notation of v * a and v * u (vector * scalar or vector *
     # vector)
     def __mul__(self, other):
-        if type(other) in [int, float]:
+        if type(other) in scalars:
             return self.scalar(other)
         elif isinstance(other, Vector3D) or isinstance(other, Normal):
             return self.dot(other)
         else:
-            raise Exception(f'Error: {other} does not work for multiplication')
+            raise Exception(f'Error: Vector3D * {type(other)}')
     
     # divide a vector by a scalar
-    def __div__(self, a):
+    def __truediv__(self, a):
+        if type(a) not in scalars:
+            raise Exception(f'Error: Vector3D / {type(other)}')
         return Vector3D(self.v / a) 
     
     # return a new vector that has the same values
@@ -77,6 +85,9 @@ class Point3D:
             self.v = numpy.array([v, args[0], args[1]], dtype='float64')
         else:
             raise Exception('invalid arguments passed to Point3D')
+    def __repr__(self):
+        return str(self.v)
+
     def __str__(self):
         return str(self.v)
     
@@ -109,7 +120,7 @@ class Point3D:
         return Point3D(self.v.copy())
 
     def __mul__(self, constant):
-        if type(constant) in [int, float]:
+        if type(constant) in scalars:
             return Point3D(self.v * constant)
         else:
             raise Exception(f'cannot multiply a Point3D by a {type(constant)}')
@@ -125,6 +136,9 @@ class Normal:
             #self.v = self.v / mag
         else:
             raise Exception('invalid arguments passed to Normal')
+    def __repr__(self):
+        return str(self.v)
+
     def __str__(self):
         return str(self.v)
     
@@ -148,7 +162,7 @@ class Normal:
 
     # scalar multiply a Normal
     def scalar(self, other):
-        if type(other) in [int, float]:
+        if type(other) in scalars:
             return Normal(self.v * other)
         else:
             raise Exception(f'Cannot scalar multiply a Normal with a {type(other)}')
@@ -174,10 +188,28 @@ class Ray:
     # constructs the representation as: [origin, direction]
     def __repr__(self):
         return f'[{str(self.origin)}, {str(self.direction)}]'
+    
+    # str gets called more
+    def __str__(self):
+        return repr(self)
 
     # copy the values of the ray and pass them on to a new ray
     def copy(self):
         return Ray(self.origin.copy(), self.direction.copy())
+
+    # calculates the point along a given ray
+    def pointAlong(self, scale):
+        return self.origin + self.direction * scale
+
+    # calculate if a Vector3D is perpendicular to the Ray's Direction
+    def isPerpendicularTo(self, vec):
+        return self.direction * vec == 0
+
+    # Semi-decent OOP practices:
+    def getOrigin(self):
+        return self.origin
+    def getDirection(self):
+        return self.direction
 
 # Represents an RGB color from (0,0,0) - (1,1,1)
 class ColorRGB:
@@ -191,12 +223,16 @@ class ColorRGB:
     
     # create a new color with the same value
     def copy(self):
-        pass
+        return ColorRGB(self.v.copy()) 
 
     # create the representation as [r g b]
     def __repr__(self):
         return str(self.v)
 
+    # str gets called more
+    def __str__(self):
+        return repr(self)
+    
     # get the individual R, G, B values and return it individually
     def get(self, field):
         fields = {'r': 0, 'g': 1, 'b': 2}
@@ -206,10 +242,64 @@ class ColorRGB:
     def __add__(self, color):
         if not isinstance(color, ColorRGB):
             raise Exception(f'Cannot add a ColorRGB and a {type(color)}')
+        # I want to make sure the result is between 0 and 1, but I don't know if that's the definition of this function
         return ColorRGB(self.v + color.v)
 
+    # multiply a color by a scalar or another ColorRGB object
+    # I'm not sure how ColorRGB * ColorRGB = ColorRGB is supposed to work
+    def __mul__(self, other):
+        # I know that it says has to be by a float in the definition ... (why can't I have an int here?)
+        if type(other) in scalars:
+            return ColorRGB(self.v * other)
+        elif type(other) is ColorRGB:
+            return ColorRGB(self.v * other.v)
+        else:
+            raise Exception(f'Cannot multiply a ColorRGB and a {type(other)}')
 
+    # divide the color by a scalar value
+    def __truediv__(self, scalar):
+        if not type(other) is float:
+            raise Exception(f'Cannot divide a ColorRGB by a {type(other)}')
+        elif scalar == 0:
+            raise Exception('Cannot divide by zero')
+        return ColorRGB(self.v / scalar)
+       
+    # raise the individual color values to the value of the float
+    def __pow__(self, val):
+        # I know that it says has to be by a float in the definition ... (why can't I have an int here?)
+        if not type(val) in scalars:
+            raise Exception(f'Cannot raise a ColorRGB to the power of {type(other)}')
+        return ColorRGB(self.v ** val)
+
+# a 2D Plane from a given origin and Normal
+class Plane:
+    def __init__(self, point, normal, color=ColorRGB(1,1,1)):
+        self.point = point
+        self.normal = normal
+        self.color = color
+
+    # return a new Plane with the same parameters
+    def copy(self):
+        return Plane(self.point.copy(), self.normal.copy(), self.color.copy())
+
+    # the string representation of a plane: [point, normal]
+    def __repr__(self):
+        return f'[{str(self.point)}, {str(self.normal)}]'
+    
+    # str gets called more
+    def __str__(self):
+        return repr(self)
+
+    # returns: (BOOLEAN, FLOAT, Point3D, ColorRGB)
+    #           is hit,   t   ,intersect, pane color
+    def hit(self, ray, shadeRec=False):
+        if ray.isPerpendicularTo(self.normal):
+            return (False, None, None, None)
+
+        t = ((self.point - ray.getOrigin()) * self.normal) / (ray.getDirection() * self.normal)
         
+        return (True, t, ray.pointAlong(t), self.color.copy())
+
 
 # We should always have debugging in our libraries
 # that run if the file is called from the command line
