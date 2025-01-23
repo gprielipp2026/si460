@@ -107,8 +107,22 @@ class TestSphere:
             res = s.hit(r)
             res.sort()
             test(f'Ray: {str(r)} -> Sphere: {str(s)}', str(res), str(exp)) 
-
         
         print()
 
+
+class TestViewPlane:
+    def __init__(self):
+        pass
+
+    def run(self):
+        from graphics import ViewPlane, Point3D, Normal
+        
+        print('Testing ViewPlane')
+
+        vp = ViewPlane(Point3D(0,0,0), Normal(0,0,1), 640, 480, 1.0)
+        print(str(['debug 1',0,0,vp.get_point(0,0)]))
+        print(str(['debug 2',479,639,vp.get_point(479,639)]))
+        
+        print()
 

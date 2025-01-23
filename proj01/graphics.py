@@ -24,7 +24,11 @@ class Vector3D:
 
     def __str__(self):
         return str(self.v)
-   
+
+    # returns a normal (aka a Vector3D with magnitude = 1)
+    def normalize(self):
+        return Normal(self.v.copy())
+
     # add two vectors together
     def __add__(self, other):
         return Vector3D(self.v + other.v)
@@ -134,8 +138,9 @@ class Normal:
             self.v = v
         elif len(args) == 2:
             self.v = numpy.array([v, args[0], args[1]], dtype='float64')
-            #mag = numpy.sqrt((self.v * self.v).sum())
-            #self.v = self.v / mag
+            # I'm pretty certain a Normal should always have a magnitude of 1
+            mag = numpy.sqrt((self.v * self.v).sum())
+            self.v = self.v / mag
         else:
             raise Exception('invalid arguments passed to Normal')
     def __repr__(self):
@@ -162,10 +167,16 @@ class Normal:
         else:
             raise Exception(f'Normal.dot({type(other)}) is not defined')
 
+    # cross product of a normal (like a Vector3D)
+    def cross(self, other: 'Normal'):
+        if not type(other) in [Vector3D, Normal]:
+            raise Exception(f'Cannot take the cross product of a Normal and a {str(type(other))}')
+        return Normal(numpy.cross(self.v, other.v))
+
     # scalar multiply a Normal
     def scalar(self, other):
         if type(other) in scalars:
-            return Normal(self.v * other)
+            return Vector3D(self.v * other)
         else:
             raise Exception(f'Cannot scalar multiply a Normal with a {type(other)}')
     
@@ -222,7 +233,12 @@ class ColorRGB:
             self.v = numpy.array([val, args[0], args[1]], dtype='float64')
         else:
             raise Exception('ColorRGB constructor expects 1 ndarray(3) or 3 floats')
-    
+   
+    # allow a ColorRGB to be unpacked into it's R,G,B components
+    # notation would be: r,g,b = ColorRGB(...)
+    def __iter__(self):
+        return iter((self.v))
+
     # create a new color with the same value
     def copy(self):
         return ColorRGB(self.v.copy()) 
@@ -375,7 +391,8 @@ class Sphere:
         elif d == 0: 
             t = (-b) / (2.0 * a)
             
-            if t == -0.0 or t <= epsilon:
+            # removed t == -0.0 # having weird issue
+            if abs(t) <= epsilon:
                 t = 0.0
 
             return [Hit(True, t, ray.pointAlong(t), self.color.copy())] 
@@ -390,6 +407,66 @@ class Sphere:
             
             return [Hit(True, t1, ray.pointAlong(t1), self.color.copy()), Hit(True, t2, ray.pointAlong(t2), self.color.copy())]
 
+# ViewPlane is a non-orthographic (ray tracing) projection of the environment
+class ViewPlane:
+    def __init__(self, center: Point3D, normal: Normal, hres: int, vres: int, pixelsize: scalars):
+        self.center = center
+        self.normal = normal
+        self.hres = hres
+        self.vres = vres
+        self.scale =  pixelsize
+        
+        # what is "displayed" to the physical screen 
+        self.screen = [[ColorRGB(0,0,0) for col in range(self.hres)] for row in range(self.vres)]
+
+        # compute unit vectors and lower left corner
+        self.__initVectors()
+
+    # compute the 3D unit vectors and the lower left corner
+    def __initVectors(self):
+        Vup = Vector3D(0,-1,0)
+        # x-axis unit vector
+        self.u = Vup.cross(-self.normal)
+        
+        # y-axis unit vector (should be unit vector from cross product already)
+        self.v = self.u.cross(-self.normal)
+
+        # normal = z-axis unit vector
+        
+        # calculate the lower left cell (lower left corner of that cell specifically)
+        self.lowerLeft = self.center - self.u * self.hres * self.scale / 2.0 - self.v * self.vres * self.scale / 2.0
+        # offset the lower left point to be the center of the cell
+        #self.lowerLeft = self.lowerLeft + self.u * 0.5 + self.v * 0.5 
+
+        # print the axis' for debugging
+        #print(f'x: {str(self.u)}   y: {str(self.v)}   z: {str(self.normal)}')
+
+    # returns the current color at a given pixel(row, col)
+    def get_color(self, row: int, col: int):
+        return self.screen[row][col]
+    
+    # set a pixel's color
+    def set_color(self, row: int, col: int, color: ColorRGB):
+        self.screen[row][col] = color
+
+    # get the center point for given pixel
+    def get_point(self, row: int, col: int):
+        # because lowerLeft is at the center of the cell, all further offsets in relation to that will be the center of the cell
+        return self.lowerLeft + self.u * col * self.scale + self.v * row * self.scale
+    
+    # returns the resulotion (width, height)
+    def get_resolution(self):
+        return (self.hres, self.vres)
+
+    # get a Ray from a specific point with the same direction as the normal
+    def orthographic_ray(self, row: int, col: int):
+        origin = self.get_point(row, col)
+        return Ray(origin, self.normal)
+
+    # get a ray with a specific perspective from a camera
+    def perspective_ray(self, row: int, col: int, cameraOrigin: Point3D):
+        origin = self.get_point(row, col)
+        return Ray(origin, (origin - cameraOrigin).normalize())
 
 # We should always have debugging in our libraries
 # that run if the file is called from the command line
