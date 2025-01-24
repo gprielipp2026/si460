@@ -22,6 +22,7 @@ obs = [S1,S2,S3,S4,S5,P1,P2]
 def getMinTHit(hits: list[Hit]):
     # sort ascending based on t values
     hits.sort()
+    return hits[0]
     # find first positive t 
     for hit in hits:
         if hit.t >= 0:
