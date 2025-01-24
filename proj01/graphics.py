@@ -20,9 +20,8 @@ class Vector3D:
             raise Exception("Invalid Arguments to Vector3D")
     
     def __repr__(self):
-        return str(self.v)
-
-    def __str__(self):
+        return str(self.v) 
+    def __str__(self): 
         return str(self.v)
 
     # returns a normal (aka a Vector3D with magnitude = 1)
@@ -139,8 +138,8 @@ class Normal:
         elif len(args) == 2:
             self.v = numpy.array([v, args[0], args[1]], dtype='float64')
             # I'm pretty certain a Normal should always have a magnitude of 1
-            mag = numpy.sqrt((self.v * self.v).sum())
-            self.v = self.v / mag
+            #mag = numpy.sqrt((self.v * self.v).sum())
+            #self.v = self.v / mag
         else:
             raise Exception('invalid arguments passed to Normal')
     def __repr__(self):
@@ -151,7 +150,7 @@ class Normal:
     
     # returns Normal(-x,-y,-z)
     def __neg__(self):
-        return Normal(-self.v)
+        return Normal(self.v*-1.0)
     
     # performs vector addition
     def __add__(self, other):
@@ -320,6 +319,13 @@ class Hit:
         
         return ret
 
+    # makes the class subscriptable
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            return (self.isHit, self.t, self.point, self.color)[item]
+        else:
+            raise Exception(f'Hit object is not subscriptable by a {str(type(item))}')
+        
 # a 2D Plane from a given origin and Normal
 class Plane:
     def __init__(self, point: Point3D, normal: Normal, color: ColorRGB=ColorRGB(1,1,1)):
@@ -342,13 +348,13 @@ class Plane:
     # this should return a Hit object to follow OOP standards
     # returns: (BOOLEAN, FLOAT, Point3D, ColorRGB)
     #           is hit,   t   ,intersect, pane color
-    def hit(self, ray: Ray, epsilon=0.000001, shadeRec=False):
+    def hit(self, ray: Ray, epsilon=0.00000001, shadeRec=False):
         if ray.isPerpendicularTo(self.normal):
             return Hit(False, None, None, None)
 
         t = ((self.point - ray.getOrigin()) * self.normal) / (ray.getDirection() * self.normal)
         
-        t = t if t > epsilon else 0.0
+        t = 0.0 if abs(t) <= epsilon else t 
 
         return Hit(True, t, ray.pointAlong(t), self.color.copy())
 
@@ -370,7 +376,7 @@ class Sphere:
         return repr(self)
 
     # calculate the spots hit by a ray (if it does hit)
-    def hit(self, ray: Ray, epsilon: float=0.000001, shadeRec: bool = False):
+    def hit(self, ray: Ray, epsilon: float=0.00000001, shadeRec: bool = False):
         rayd = ray.getDirection()
         orig = ray.getOrigin()
         cent = self.center
@@ -436,10 +442,16 @@ class ViewPlane:
         # calculate the lower left cell (lower left corner of that cell specifically)
         self.lowerLeft = self.center - self.u * self.hres * self.scale / 2.0 - self.v * self.vres * self.scale / 2.0
         # offset the lower left point to be the center of the cell
-        #self.lowerLeft = self.lowerLeft + self.u * 0.5 + self.v * 0.5 
+        self.lowerLeft = self.lowerLeft + self.u / 2.0 + self.v / 2.0 
 
         # print the axis' for debugging
         #print(f'x: {str(self.u)}   y: {str(self.v)}   z: {str(self.normal)}')
+    
+    # return certain attributes (in OOP fashion)
+    def getCenter(self):
+        return self.center
+    def getNormal(self):
+        return self.normal
 
     # returns the current color at a given pixel(row, col)
     def get_color(self, row: int, col: int):

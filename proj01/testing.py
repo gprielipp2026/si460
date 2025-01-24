@@ -5,6 +5,18 @@ def test(name, val, exp):
     else:
         print('\033[0;32mPassed\033[0m')
 
+class TestHit:
+    def __init__(self):
+        pass
+
+    def run(self):
+        from graphics import Hit
+        print('Testing Hit')
+        
+        test('Subscripting Hit', Hit(True, None, None, None)[0], True)
+        
+        print()
+
 class TestVector:
     def __init__(self):
         from graphics import Vector3D

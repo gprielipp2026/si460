@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-from graphics import Sphere, Plane, Point3D, Normal, ColorRGB, Hit, ViewPlane
+from graphics import Sphere, Plane, Point3D, Normal, ColorRGB, Hit, ViewPlane, Ray
 from ppm import PPM
-from threading import Thread, Semaphore
 
 # Build the Spheres that will be in our world
 S1 = Sphere(Point3D(300,200,200), 100, ColorRGB(1.0,0.2,0.4))
@@ -30,65 +29,19 @@ def getMinTHit(hits: list[Hit]):
     # no hit in front of the viewplane was good:
     return Hit(False, None, None, ColorRGB(0,0,0))
 
-# Semaphore (lock) did not seem to be required...
-def processChunk(lock, startx, endx, starty, endy, view, objs):
-    print(f'Processing: {startx} - {endx}, {starty} - {endy}')
-    for row in range(endy-1, starty-1, -1):
-        for col in range(startx, endx):
-            #lock.acquire() 
-            ray = view.orthographic_ray(row, col)
-            #lock.release() 
-            
-            hits = []
-            for obj in objs:
-                hit = obj.hit(ray)
-                if isinstance(hit, list):
-                    hits.extend(hit)
-                else:
-                    hits.append(hit)
-
-            closestHit = getMinTHit(hits)
-            #print(f'({row}, {col}): {str(closestHit)}')  
-            #lock.acquire()
-            view.set_color(row, col, closestHit.color)
-            #lock.release()
-
-# this is very slow...
-def rayTraceMT(view: ViewPlane, objs):
-    width, height = view.get_resolution()
-
-    viewLock = Semaphore()
-
-    # how many chunks to split the workload up into?
-    # I'm thinking nxn
-    threads = []
-    
-    yfact = height//2
-    xfact = width//4
-
-    for row in range(0, height, yfact):
-        for col in range(0, width, xfact):
-            startx, endx = col, min(col + xfact, width )
-            starty, endy = row, min(row + yfact, height)
-            objs = [x.copy() for x in objs]
-            t = Thread(target=processChunk, args=(viewLock, startx, endx, starty, endy, view, objs,))
-            
-            threads.append(t)
-
-    for thread in threads:
-        thread.start()
-
-    for thread in threads:
-        thread.join()
-
 # somehow this is faster ??
 def rayTrace(view: ViewPlane, objs):
     width, height = view.get_resolution()
+    
+    # simulate "orthographic" view
+    # produced the same images and the othrographic_ray
+    #camera = Ray(view.getCenter() - view.getNormal()*100000.0, view.getNormal())
 
     # iterate through and cast a ray for each pixel
-    for row in range(height-1, -1, -1):
+    for row in range(0, height):
         for col in range(0, width):
             ray = view.orthographic_ray(row, col)
+            #ray = view.perspective_ray(row, col, camera.getOrigin())
             hits = []
             for obj in objs:
                 hit = obj.hit(ray)
@@ -104,7 +57,8 @@ def rayTrace(view: ViewPlane, objs):
 views = [\
         ViewPlane(Point3D(0,0,0), Normal(0,0,1), 200, 100, 1.0),\
         ViewPlane(Point3D(50,50,-50), Normal(0,0,1), 200, 100, 1.0),\
-        ViewPlane(Point3D(50,50,-50), Normal(1,1,1), 200, 100, 1.0),\
+        #ViewPlane(Point3D(50,50,-50), Normal(1,1,1), 200, 100, 0.70),\ # this makes the image correct
+        ViewPlane(Point3D(50,50,-50), Normal(1,1,1), 200, 100, 1.00),\
         ViewPlane(Point3D(0,0,0), Normal(0,0,1), 640, 480, 1.0),\
         ViewPlane(Point3D(50,50,-50), Normal(-0.2,0,1), 200, 100, 1.0)\
         ]
@@ -113,6 +67,6 @@ views = [\
 
 for i,view in enumerate(views):
     rayTrace(view, obs)
-    PPM(view, f'part5-{i+1}.ppm')
-
+    PPM(view, f'old_images/part5-{i+1}.ppm')
+    print(f'Done with: part5-{i+1}.ppm')
 

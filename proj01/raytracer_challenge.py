@@ -59,6 +59,6 @@ cameras = [\
 
 for i,camera in enumerate(cameras):
     rayTrace(view, obs, camera)
-    PPM(view, f'part6-{i+1}.ppm')
-
+    PPM(view, f'old_images/part6-{i+1}.ppm')
+    print(f'Done with: part6-{i+1}.ppm')
 
