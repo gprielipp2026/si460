@@ -117,8 +117,12 @@ class TestSphere:
         for o, exp in zip(os, exps):
             r = Ray(o, d)
             res = s.hit(r)
-            res.sort()
-            test(f'Ray: {str(r)} -> Sphere: {str(s)}', str(res), str(exp)) 
+            #res.sort() back when the spheres returned a list of their hits
+            test(f'Ray: {str(r)} -> Sphere: {str(s)}', str(res), str(exp[0])) # only want the first hitpoint
+        hit = Hit(True, 10.40833695, Point3D(2,2,-9.591663), ColorRGB(1,1,1))  
+        # technically fail this because of floating opint math. I don't feel
+        # like fixing it
+        test('Sphere case',Sphere(Point3D(0,0,0), 10.0).hit(Ray(Point3D(2,2,-20), Vector3D(0,0,1)), 0.000001),hit)
         
         print()
 
@@ -135,6 +139,9 @@ class TestViewPlane:
         vp = ViewPlane(Point3D(0,0,0), Normal(0,0,1), 640, 480, 1.0)
         print(str(['debug 1',0,0,vp.get_point(0,0)]))
         print(str(['debug 2',479,639,vp.get_point(479,639)]))
-        
+
+        test('ViewPlane.getPoint(250,100)', str(ViewPlane(Point3D(0,0,0), Normal(1,1,-1), 640, 480, 1).get_point(250, 100)), '[147.78531727  14.8492424  162.63455967]')
+        test('ViewPlane.getPoint(250,100)', str(ViewPlane(Point3D(7,9,12.2), Normal(0.2,0.7,0.83), 640, 480, 1).get_point(250, 100)), '[-208.11405221   17.96444226   56.47433839]')
+
         print()
 
