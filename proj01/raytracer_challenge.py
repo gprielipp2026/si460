@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from graphics import Sphere, Plane, Point3D, Normal, ColorRGB, Hit, ViewPlane, Ray
+from graphics import Sphere, Plane, Point3D, Normal, ColorRGB, Hit, ViewPlane, Ray, Vector3D
 from ppm import PPM
 
 # Build the Spheres that will be in our world
@@ -21,7 +21,6 @@ obs = [S1,S2,S3,S4,S5,P1,P2]
 def getMinTHit(hits: list[Hit]):
     # sort ascending based on t values
     hits.sort()
-    return hits[0]
     # find first positive t 
     for hit in hits:
         if hit.t >= 0.0:
@@ -33,9 +32,10 @@ def rayTrace(view: ViewPlane, objs, camera):
     width, height = view.get_resolution()
 
     # iterate through and cast a ray for each pixel
-    for row in range(height-1, -1, -1):
+    for row in range(0, height):
         for col in range(0, width):
             ray = view.perspective_ray(row, col, camera.getOrigin())
+            #print(f'Ray({col},{row}) = {str(ray)}')
             hits = []
             for obj in objs:
                 hit = obj.hit(ray)
@@ -53,7 +53,8 @@ view = ViewPlane(Point3D(0,0,0), Normal(0,0,1), 640, 480, 1.0)
 cameras = [\
            Ray(Point3D(0,0,-100), Normal(0,0,1)),\
            Ray(Point3D(0,0,-1000), Normal(0,0,1)),\
-           Ray(Point3D(-100,-100,-30), Normal(0,0,1))]
+           Ray(Point3D(-100,-100,-30), Normal(0,0,1))\
+           ]
 
 # going to just bruteforce it because why not (ie no multi-threading/processing)
 

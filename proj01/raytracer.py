@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from graphics import Sphere, Plane, Point3D, Normal, ColorRGB, Hit, ViewPlane, Ray
+from graphics import Sphere, Plane, Point3D, Normal, ColorRGB, Hit, ViewPlane, Ray 
 from ppm import PPM
 
 # Build the Spheres that will be in our world
@@ -21,7 +21,6 @@ obs = [S1,S2,S3,S4,S5,P1,P2]
 def getMinTHit(hits: list[Hit]):
     # sort ascending based on t values
     hits.sort()
-    return hits[0]
     # find first positive t 
     for hit in hits:
         if hit.t >= 0:
@@ -33,15 +32,11 @@ def getMinTHit(hits: list[Hit]):
 def rayTrace(view: ViewPlane, objs):
     width, height = view.get_resolution()
     
-    # simulate "orthographic" view
-    # produced the same images and the othrographic_ray
-    #camera = Ray(view.getCenter() - view.getNormal()*100000.0, view.getNormal())
-
     # iterate through and cast a ray for each pixel
     for row in range(0, height):
         for col in range(0, width):
             ray = view.orthographic_ray(row, col)
-            #ray = view.perspective_ray(row, col, camera.getOrigin())
+            
             hits = []
             for obj in objs:
                 hit = obj.hit(ray)
@@ -57,13 +52,11 @@ def rayTrace(view: ViewPlane, objs):
 views = [\
         ViewPlane(Point3D(0,0,0), Normal(0,0,1), 200, 100, 1.0),\
         ViewPlane(Point3D(50,50,-50), Normal(0,0,1), 200, 100, 1.0),\
-        #ViewPlane(Point3D(50,50,-50), Normal(1,1,1), 200, 100, 0.70),\ # this makes the image correct
-        ViewPlane(Point3D(50,50,-50), Normal(1,1,1), 200, 100, 1.00),\
+        ViewPlane(Point3D(50,50,-50), Normal(1,1,1), 200, 100, 2.00),\
         ViewPlane(Point3D(0,0,0), Normal(0,0,1), 640, 480, 1.0),\
         ViewPlane(Point3D(50,50,-50), Normal(-0.2,0,1), 200, 100, 1.0)\
         ]
 
-# going to just bruteforce it because why not (ie no multi-threading/processing)
 
 for i,view in enumerate(views):
     rayTrace(view, obs)

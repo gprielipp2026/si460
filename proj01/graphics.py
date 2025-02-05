@@ -137,11 +137,14 @@ class Normal:
             self.v = v
         elif len(args) == 2:
             self.v = numpy.array([v, args[0], args[1]], dtype='float64')
-            # I'm pretty certain a Normal should always have a magnitude of 1
-            #mag = numpy.sqrt((self.v * self.v).sum())
-            #self.v = self.v / mag
         else:
             raise Exception('invalid arguments passed to Normal')
+        
+        # I'm pretty certain a Normal should always have a magnitude of 1
+        mag = numpy.sqrt((self.v * self.v).sum())
+        self.v = self.v / mag
+        #print(f'Normal: {str(self)}.mag() = {self.magnitude()}')
+    
     def __repr__(self):
         return str(self.v)
 
@@ -179,20 +182,20 @@ class Normal:
         else:
             raise Exception(f'Cannot scalar multiply a Normal with a {type(other)}')
   
-    #def __truediv__(self, other):
-    #    if type(other) not in scalars:
-    #        raise Exception(f'Cannot divide a Normal by a {type(other)}')
-    #    else:
-    #        return Normal(self.v / other)
+    def __truediv__(self, other):
+        if type(other) not in scalars:
+            raise Exception(f'Cannot divide a Normal by a {type(other)}')
+        else:
+            return Normal(self.v / other)
 
     # returns the magnitude of the Normal
     # take the magnitude
-    #def magnitude(self):
-    #    return numpy.sqrt(self.square()) 
+    def magnitude(self):
+        return numpy.sqrt(self.square()) 
 
     # x^2 + y^2 + z^2
-    #def square(self):
-    #    return (self.v * self.v).sum() 
+    def square(self):
+        return (self.v * self.v).sum() 
 
     # convenient notation to allow the scalar and dot product to piggyback on
     # the '*' operator
@@ -229,9 +232,7 @@ class Ray:
         return self.origin + self.direction * scale
 
     # calculate if a Vector3D is perpendicular to the Ray's Direction
-    def isPerpendicularTo(self, vec: Vector3D):
-        return self.direction * vec == 0
-
+    def isPerpendicularTo(self, vec: Vector3D): return self.direction * vec == 0
     # Semi-decent OOP practices:
     def getOrigin(self):
         return self.origin
@@ -308,9 +309,9 @@ class ColorRGB:
 # or just making a super simple class
 @dataclass
 class Hit:
-    isHit: bool
-    t: numpy.float64 or float
-    point: Point3D
+    isHit: bool 
+    t: numpy.float64 or float 
+    point: Point3D 
     color: ColorRGB
     
     # define string representation of this object
@@ -363,7 +364,7 @@ class Plane:
     # this should return a Hit object to follow OOP standards
     # returns: (BOOLEAN, FLOAT, Point3D, ColorRGB)
     #           is hit,   t   ,intersect, pane color
-    def hit(self, ray: Ray, epsilon=0.00000001, shadeRec=False):
+    def hit(self, ray: Ray, epsilon=0.000001001, shadeRec=False):
         if ray.isPerpendicularTo(self.normal):
             return Hit(False, None, None, None)
 
@@ -435,10 +436,11 @@ class ViewPlane:
     def __init__(self, center: Point3D, normal: Normal, hres: int, vres: int, pixelsize: scalars):
         self.center = center
         self.normal = normal
-        #self.normal = normal / normal.magnitude() 
+        
         self.hres = hres
         self.vres = vres
         self.scale =  pixelsize
+        
         # what is "displayed" to the physical screen 
         self.screen = [[ColorRGB(0,0,0) for col in range(self.hres)] for row in range(self.vres)]
 
@@ -449,20 +451,21 @@ class ViewPlane:
     def __initVectors(self):
         Vup = Vector3D(0,-1,0)
         # x-axis unit vector
-        self.u = Vup.cross(-self.normal)
-        self.u /= self.u.magnitude()         
+        self.u = Vup.cross(-self.normal).normalize()
+        
         # y-axis unit vector (should be unit vector from cross product already)
         self.v = self.u.cross(-self.normal)
-        self.v /= self.v.magnitude()
+        
         # normal = z-axis unit vector
         
         # calculate the lower left cell (lower left corner of that cell specifically)
-        self.lowerLeft = self.center - self.u * self.hres * self.scale * 0.5 - self.v * self.vres * self.scale * 0.5
+        self.lowerLeft = self.center - self.u * self.hres * 0.5 * self.scale - self.v * self.vres * 0.5 * self.scale
         # offset the lower left point to be the center of the cell
         self.lowerLeft = self.lowerLeft + self.u * self.scale * 0.5 + self.v * self.scale * 0.5 
 
         # print the axis' for debugging
         #print(f'x: {str(self.u)}   y: {str(self.v)}   z: {str(self.normal)}')
+        #print(f'LowerLeft = {str(self.lowerLeft)}')
     
     # return certain attributes (in OOP fashion)
     def getCenter(self):
@@ -495,7 +498,10 @@ class ViewPlane:
     # get a ray with a specific perspective from a camera
     def perspective_ray(self, row: int, col: int, cameraOrigin: Point3D):
         origin = self.get_point(row, col)
-        return Ray(origin, (origin - cameraOrigin).normalize())
+        vector = origin - cameraOrigin
+        #print(f'[perspective_ray]: vector is {type(vector)}, normalized: is {type(vector.normalize())}')
+        #print(f'[perspective_ray]: vector is {str(vector)}, normalized: is {str(vector.normalize())}')
+        return Ray(origin, vector.normalize())
 
 # We should always have debugging in our libraries
 # that run if the file is called from the command line
