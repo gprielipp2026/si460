@@ -8,11 +8,13 @@ import sys
 # the window
 window = pyglet.window.Window(400,400,resizable=False, caption='ex1.py')
 
-if len(sys.argv) != 1:
+X = Y = 400 / 8.0
+
+if len(sys.argv) != 2:
     print('usage: python3 circle.py <numVertices>')
     exit(0)
 
-numVertices = int(sys.argv)
+numVertices = int(sys.argv[1])
 
 def drawCircle(X, Y, R):#, numVertices=100):
     global numVertices
@@ -26,7 +28,13 @@ def drawCircle(X, Y, R):#, numVertices=100):
         theta += deltaTheta
     glEnd()
 
+saved = False
 
+def save(fn):
+    saved = True
+    pyglet.gl.glClearColor(0,0,0,1)
+    pyglet.image.get_buffer_manager().get_color_buffer().save(fn)
+ 
 # how to draw whats inside the window
 @window.event
 def on_draw():
@@ -42,9 +50,11 @@ def on_draw():
     # create a circle:
     # centered at (X,Y) with radius R:
     glColor3f(0.5, 0.0, 0.7)
-    drawCircle(100.0,100.0, 25.0)    
+    drawCircle(X,Y, 25.0)    
 
     # you can create any curve with GL_LINE_STRIP if you can find points along it
-
+    
+    if not saved:
+        save(f'circle{numVertices}.png')
 
 pyglet.app.run()
