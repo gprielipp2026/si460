@@ -52,7 +52,11 @@ def rayTrace(view: ViewPlane, objs):
 views = [\
         ViewPlane(Point3D(0,0,0), Normal(0,0,1), 200, 100, 1.0),\
         ViewPlane(Point3D(50,50,-50), Normal(0,0,1), 200, 100, 1.0),\
+<<<<<<< HEAD
         ViewPlane(Point3D(50,50,-50), Normal(1,1,1), 200, 100, 1.0),\
+=======
+        ViewPlane(Point3D(50,50,-50), Normal(1,1,1), 200, 100, 1.00),\
+>>>>>>> 435e5bdee0222e66d209bdafb22f3e5cd25e1c9e
         ViewPlane(Point3D(0,0,0), Normal(0,0,1), 640, 480, 1.0),\
         ViewPlane(Point3D(50,50,-50), Normal(-0.2,0,1), 200, 100, 1.0)\
         ]
