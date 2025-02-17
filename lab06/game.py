@@ -5,6 +5,8 @@ import pyglet
 from pyglet.window import key
 import time, sys, importlib
 
+from enemy import Enemy
+
 # Our world that we will draw via pyglet
 class Game(pyglet.window.Window):
 
@@ -94,5 +96,8 @@ if __name__ == '__main__':
             print(' Adding', len(objects), 'to worldObjects')
             for i in range(len(objects)):
                 worldPlayers.append(objects[i])
+   
+    worldPlayers.extend([Enemy(), Enemy()])
+
     myGame = Game(800, 600, "SI460 Game", worldPlayers)
     pyglet.app.run()

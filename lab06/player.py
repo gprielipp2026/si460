@@ -16,7 +16,8 @@ class Player(Entity):
         self.state = self.availableStates[self.stateID]
 
     def on_key_press(self, symbol, modifiers):
-        print(f'[Player] on_key_press({symbol}, {modifiers})')
+        self.info(symbol, modifiers)
+
         if modifiers == key.MOD_SHIFT:
             if symbol == key.PLUS:
                 self.stateID += 1
@@ -35,6 +36,7 @@ class Player(Entity):
             elif symbol == key.MINUS:
                 self.stateID -= 1
                 self.state = self.availableStates[self.stateID % len(self.availableStates)]
-
+        
+        self.log(f'{self.state} facing {self.direction}')
 
 objects = [Player()]

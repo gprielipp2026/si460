@@ -4,6 +4,7 @@
 import pyglet
 import glob
 import re
+import inspect
 
 # Our Hero Class
 class Entity:
@@ -15,6 +16,7 @@ class Entity:
         # locate these from the given directory
         animationTypes = set() 
         files = glob.glob(f'{imageLocation}/*.png')
+        self.name = imageLocation[ imageLocation.rfind('/')+1 : ].capitalize()
         minMaxes = dict() 
         for file in files:
             # naming convention is 'Action (#).png'
@@ -71,6 +73,13 @@ class Entity:
                 sprite.scale = self.animationScale
                 # save the sprite
                 self.animations[animation][direction] = sprite
+
+    def info(self, *args):
+        func = inspect.stack()[1].function
+        print(f'[{self.name}] {func}{str(tuple(args))}')
+    
+    def log(self, string):
+        print(f'[{self.name}] {string}')
 
     def draw(self, t=0, *other):
         # display the animation of the current state 
