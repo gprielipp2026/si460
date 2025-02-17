@@ -2,10 +2,11 @@
 
 # Important Libraries
 import pyglet
+from pyglet.window import key
 import time, sys, importlib
 
 # Our world that we will draw via pyglet
-class Game:
+class Game(pyglet.window.Window):
 
     # Update the world time based on time elapsed in the real world
     # since we started the Game Class.
@@ -21,7 +22,11 @@ class Game:
         self.screenshot = 0
 
         # Build the OpenGL / Pyglet Window
-        self.window = pyglet.window.Window(width=width, height=height, resizable=resizable, caption=caption)
+        super().__init__(width=width, height=height, resizable=resizable, caption=caption)
+
+        self.width = width
+        self.height = height
+        self.players = players
 
         # Fix transparent issue...
         pyglet.gl.glEnable(pyglet.gl.GL_BLEND)
@@ -46,28 +51,36 @@ class Game:
         # Schedule a Clock to update the time
         pyglet.clock.schedule_interval(self.updateClock, 1.0/30.0)
 
-        # Handle Key Presses in our World
-        @self.window.event
-        def on_key_press(symbol, modifiers):
-            if symbol == pyglet.window.key.END:
-                self.screenshot = self.screenshot + 1
-                pyglet.image.get_buffer_manager().get_color_buffer().save(sys.argv[-1]+'.'+str(self.screenshot)+'.png')
+    # Handle Key Presses in our World
+    #@window.event
+    def on_key_press(self, symbol, modifiers):
+        if modifiers == key.MOD_CTRL and symbol == key.C:
+            print('[Game] exiting...')
+            sys.exit(0)
 
-        # Event Handler for drawing the screen
-        @self.window.event
-        def on_draw():
+        for player in self.players:
+            if 'on_key_press' in dir(player):
+                player.on_key_press(symbol, modifiers)
 
-            # Clear the window (a good way to start things)
-            self.window.clear()
+        if symbol == key.END:
+            self.screenshot = self.screenshot + 1
+            pyglet.image.get_buffer_manager().get_color_buffer().save(sys.argv[-1]+'.'+str(self.screenshot)+'.png')
 
-            # Draw the game background
-            self.background.blit(self.background_x,self.background_y,height=height)
+    # Event Handler for drawing the screen
+    #@window.event
+    def on_draw(self):
 
-            # Lets draw all of the individual objects, these objects
-            # need to have a draw function that takes in worldTime as
-            # a variable.
-            for player in self.players:
-                player.draw(self.worldTime)
+        # Clear the window (a good way to start things)
+        self.clear()
+
+        # Draw the game background
+        self.background.blit(self.background_x,self.background_y,height=self.height)
+
+        # Lets draw all of the individual objects, these objects
+        # need to have a draw function that takes in worldTime as
+        # a variable.
+        for player in self.players:
+            player.draw(self.worldTime)
 
 # Load in any requested objects from the command then, then start the game.
 if __name__ == '__main__':

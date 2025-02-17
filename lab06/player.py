@@ -2,51 +2,39 @@
 
 # Important Libraries
 import pyglet
+from pyglet.window import key
+
+from entity import Entity
 
 # Our Hero Class
-class Player:
+class Player(Entity):
     def __init__(self, speed=0.05, scale=0.15, loop=True, x=380, y=250):
-        # Example sprite building...
-        # --- What a horrible way of loading in images ---
-        # --- There must be a better way ---
-        # --- Possibly a good Lab problem, hmmm.... ---
-        a = pyglet.resource.image('mylevel/sprites/hero/Run (1).png', flip_x=False)
-        b = pyglet.resource.image('mylevel/sprites/hero/Run (2).png', flip_x=False)
-        c = pyglet.resource.image('mylevel/sprites/hero/Run (3).png', flip_x=False)
-        d = pyglet.resource.image('mylevel/sprites/hero/Run (4).png', flip_x=False)
-        e = pyglet.resource.image('mylevel/sprites/hero/Run (5).png', flip_x=False)
-        f = pyglet.resource.image('mylevel/sprites/hero/Run (6).png', flip_x=False)
-        g = pyglet.resource.image('mylevel/sprites/hero/Run (7).png', flip_x=False)
-        h = pyglet.resource.image('mylevel/sprites/hero/Run (8).png', flip_x=False)
-        i = pyglet.resource.image('mylevel/sprites/hero/Run (9).png', flip_x=False)
-        j = pyglet.resource.image('mylevel/sprites/hero/Run (10).png',flip_x=False)
+        # define the possible states for the Player
+        super().__init__('mylevel/sprites/hero', speed, scale, loop, x, y)
+       
+        self.stateID = self.availableStates.index('Idle') 
+        self.state = self.availableStates[self.stateID]
 
-        # We can change the anchor point of an image, by setting it's x and y
-        # anchor values, example:
-        # a.anchor_x = a.width / 2.0
+    def on_key_press(self, symbol, modifiers):
+        print(f'[Player] on_key_press({symbol}, {modifiers})')
+        if modifiers == key.MOD_SHIFT:
+            if symbol == key.PLUS:
+                self.stateID += 1
+                self.state = self.availableStates[self.stateID % len(self.availableStates)]
+        elif modifiers == 0:
+            if symbol == key.A:
+                self.direction = 'Left'
+            elif symbol == key.D:
+                self.direction = 'Right'
+            elif symbol == key.W:
+                self.stateID += 1
+                self.state = self.availableStates[self.stateID % len(self.availableStates)]
+            elif symbol == key.S:
+                self.stateID -= 1
+                self.state = self.availableStates[self.stateID % len(self.availableStates)]
+            elif symbol == key.MINUS:
+                self.stateID -= 1
+                self.state = self.availableStates[self.stateID % len(self.availableStates)]
 
-        # Retrieve the appropriate sequence of images from the sprite dictionary
-        self.playerSequence = [a,b,c,d,e,f,g,h,i,j]
-
-        # Some basic settings
-        self.animationSpeed = speed
-        self.animationScale = scale
-        self.animationLoop = loop
-        self.animationX = x
-        self.animationY = y
-
-        # Build the pyglet animation sequence
-        self.playerAnimation = pyglet.image.Animation.from_image_sequence(self.playerSequence,
-                                                                          self.animationSpeed,
-                                                                          self.animationLoop)
-        # Create the sprite from the animation sequence
-        self.playerSprite = pyglet.sprite.Sprite(self.playerAnimation,
-                                                 x=self.animationX,
-                                                 y=self.animationY)
-        # Set the player's scale
-        self.playerSprite.scale = self.animationScale
-
-    def draw(self, t=0, *other):
-        self.playerSprite.draw()
 
 objects = [Player()]
