@@ -38,6 +38,8 @@ class Scene:
         @self.window.event
         def on_key_press(symbol, modifiers):
             print(['key', symbol, modifiers])
+            if symbol == key.END:
+                pyglet.image.get_buffer_manager().get_color_buffer().save('house.png')
             if modifiers == 0:
                 if symbol == key.C:
                     self.drawing = False
