@@ -5,7 +5,9 @@ import pyglet
 from pyglet.window import key
 import time, sys, importlib, os, glob, re
 
+from player import Player
 from enemy import Enemy
+from landmass import Landmass
 
 # Our world that we will draw via pyglet
 class Game(pyglet.window.Window):
@@ -16,12 +18,21 @@ class Game(pyglet.window.Window):
         self.worldTime = time.time() - self.startTime
         # A temporary background mover as a demo...
         #print(self.background_x + self.background.width, self.width)
-        if self.background_x + self.background.width <= self.width:
-            self.background_x = 0.0
-        self.background_x -= 0.2
+        # I want this to loop appropriately
+        if self.background.width + self.background_x <= 0.0:
+            self.background_x += self.background.width
+
+        self.background_x -= 1.0
+       #self.background_x -= 0.2
         
     # Initialize and run our environment
-    def __init__(self, width=800, height=600, caption="Would you like to play a game?", players=[], resizable=False):
+    def __init__(self, width=800, height=600, caption="Would you like to play a game?", entities: list=[], tiles=[], resizable=False):
+        # background music
+        self.backgroundMusic = pyglet.media.Player()
+        self.backgroundMusic.queue(pyglet.media.load('mylevel/music/1.wav', streaming=True))
+        self.backgroundMusic.eos_action = 'loop'
+        self.backgroundMusic.loop = True
+        self.backgroundMusic.play()
 
         # Count screenshots
         self.screenshot = 0
@@ -31,15 +42,12 @@ class Game(pyglet.window.Window):
 
         self.width = width
         self.height = height
-        self.players = players
+        self.entities = entities
+        self.tiles = tiles
 
         # Fix transparent issue...
         pyglet.gl.glEnable(pyglet.gl.GL_BLEND)
         pyglet.gl.glBlendFunc(pyglet.gl.GL_SRC_ALPHA, pyglet.gl.GL_ONE_MINUS_SRC_ALPHA)
-
-        # Array of players that I would like to draw over time
-        # make sure they have: .draw(timeT) function
-        self.players = players
 
         # Lets set a global clock
         self.worldTime = 0.0
@@ -49,6 +57,7 @@ class Game(pyglet.window.Window):
         # we will work with multiple methods.
         # Take a look at how this is drawn in the on_draw function
         # and the self.background.blit method.
+        # eventually background could be passed in
         self.background = pyglet.resource.image("mylevel/backgrounds/level1.png")
         self.background_x = 0
         self.background_y = 0
@@ -63,18 +72,18 @@ class Game(pyglet.window.Window):
             print('[Game] exiting...')
             sys.exit(0)
 
-        for player in self.players:
-            if 'on_key_press' in dir(player):
-                player.on_key_press(symbol, modifiers)
+        for entity in self.entities:
+            if 'on_key_press' in dir(entity):
+                entity.on_key_press(symbol, modifiers)
 
         if symbol == key.END:
             self.screenshot = self.screenshot + 1
             pyglet.image.get_buffer_manager().get_color_buffer().save(sys.argv[-1]+'.'+str(self.screenshot)+'.png')
 
     def on_key_release(self, symbol, modifiers):
-        for player in self.players:
-            if 'on_key_release' in dir(player):
-                player.on_key_release(symbol, modifiers)
+        for entity in self.entities:
+            if 'on_key_release' in dir(entity):
+                entity.on_key_release(symbol, modifiers)
 
     # Event Handler for drawing the screen
     #@window.event
@@ -85,12 +94,20 @@ class Game(pyglet.window.Window):
 
         # Draw the game background
         self.background.blit(self.background_x,self.background_y,height=self.height)
+        count = 0
+        while self.background_x + self.background.width + count * self.background.width <= self.width:
+            x = self.background_x + self.background.width + count * self.background.width - 0.1 # small factor to remove gap
+            self.background.blit(x, self.background_y, height=self.height)
+            count += 1
+
+        for tile in self.tiles:
+            tile.draw()
 
         # Lets draw all of the individual objects, these objects
         # need to have a draw function that takes in worldTime as
         # a variable.
-        for player in self.players:
-            player.draw(self.worldTime)
+        for entity in self.entities:
+            entity.draw(self.worldTime)
 
 def loadAllImages(filepath='mylevel/sprites'):
     dirs = os.listdir(filepath)
@@ -123,19 +140,9 @@ def loadAllImages(filepath='mylevel/sprites'):
 # Load in any requested objects from the command then, then start the game.
 if __name__ == '__main__':
     #print(loadAllImages('mylevel/sprites') | loadAllImages('mylevel/objects') | loadAllImages('mylevel/tiles'))
-        
-    worldPlayers = []
-    for objectFile in sys.argv[1:]:
-        print('Loading', objectFile)
-        if objectFile.find('.py') != -1:
-            objectFile = objectFile.split('.py')[0]
-        objects = getattr(importlib.import_module(objectFile), 'objects')
-        if len(objects) > 0:
-            print(' Adding', len(objects), 'to worldObjects')
-            for i in range(len(objects)):
-                worldPlayers.append(objects[i])
-   
-    worldPlayers.extend([Enemy(), Enemy()])
     
-    myGame = Game(800, 600, "SI460 Game", worldPlayers)
+    entities = [Player(), Enemy(), Enemy()]
+    tiles = [Landmass([[1,1,0,0,0,0,0,0],[1,1,1,1,1,1,0,0],[1,1,1,1,1,1,0,0]], 0, 216)]
+
+    myGame = Game(800, 600, "SI460 Game", entities, tiles)
     pyglet.app.run()

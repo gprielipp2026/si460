@@ -14,4 +14,3 @@ class Island(Tile):
         # I wan't one row 
         super().__init__([files], x, y)
 
-objects = [Island()]

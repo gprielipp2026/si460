@@ -5,12 +5,15 @@ import pyglet
 import glob
 import re
 import inspect
+import random
 
 # this loads and handles Movable Sprites on the Screen
 class Entity:
-    def __init__(self, imageLocation, speed, scale, loop, x, y):
+    def __init__(self, imageLocation, speed, scale, loop, x, y, sounds={}):
         if imageLocation[-1] == '/':
             imageLocation = imageLocation[:-1] # remove the /
+
+        self.sounds = sounds
 
         # define the possible states for the Entity 
         # locate these from the given directory
@@ -20,7 +23,7 @@ class Entity:
         minMaxes = dict() 
         for file in files:
             # naming convention is 'Action (#).png'
-            matches = re.search(r'([a-zA-Z]+)\ (\(\d+\))\.png', file)
+            matches = re.search(r'([a-zA-Z\-]+)\ (\(\d+\))\.png', file)
             
             # could happen if some weird file is in the directory
             if matches is None:
@@ -63,6 +66,13 @@ class Entity:
         self.state = list(animationTypes)[0]
         self.direction = 'Right'
 
+        self.hp = 100
+        self.levelOver = False
+
+    # interact with the engine here somehow (rigid bodies?)
+    def isInAir(self):
+        return False
+
     # convert the given state and direction into a Sprite for display
     def __getSprite(self):
         # get the sequence
@@ -77,6 +87,12 @@ class Entity:
         sprite.scale = self.animationScale
         return sprite
     
+    def isDead(self):
+        return self.hp <= 0
+    
+    def hasWon(self):
+        return self.levelOver
+
     # change the internal movement states
     def move(self, dx, dy):
         self.x += dx
@@ -100,3 +116,13 @@ class Entity:
     def draw(self, t=0, *other):
         # display the animation of the current state 
         self.animation.draw()
+
+        # check to see what sound to play
+        # right now it allows a user to hold down a button and it will spam the sound
+        # TODO - fix this issue and only allow a sound to play once per animation sequence
+        if self.state.lower() in self.sounds:
+            random.choice(self.sounds[self.state.lower()]).play()
+        elif self.isDead():
+            self.sounds['lose'][0].play()
+        elif self.hasWon():
+            self.sounds['win'][0].play()
