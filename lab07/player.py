@@ -21,7 +21,7 @@ class Player(Entity):
         }
         
         # define the possible states for the Player
-        super().__init__('mylevel/sprites/hero', speed, scale, loop, x, y, sounds=sounds)
+        super().__init__('player', 'mylevel/sprites/hero', speed, scale, loop, x, y, 200*scale, 400*scale, sounds=sounds)
        
         self.updateState('Idle')
         

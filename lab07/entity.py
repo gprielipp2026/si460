@@ -2,14 +2,17 @@
 
 # Important Libraries
 import pyglet
+from pyglet.gl import *
 import glob
 import re
 import inspect
 import random
 
+from physics import *
+
 # this loads and handles Movable Sprites on the Screen
 class Entity:
-    def __init__(self, imageLocation, speed, scale, loop, x, y, sounds={}):
+    def __init__(self, type, imageLocation, speed, scale, loop, x, y, width, height, sounds={}):
         if imageLocation[-1] == '/':
             imageLocation = imageLocation[:-1] # remove the /
 
@@ -21,6 +24,7 @@ class Entity:
         files = glob.glob(f'{imageLocation}/*.png')
         self.name = imageLocation[ imageLocation.rfind('/')+1 : ].capitalize()
         minMaxes = dict() 
+
         for file in files:
             # naming convention is 'Action (#).png'
             matches = re.search(r'([a-zA-Z\-]+)\ (\(\d+\))\.png', file)
@@ -44,6 +48,8 @@ class Entity:
         # all of the available "Action"'s that can be taken
         self.availableStates = list(animationTypes)
 
+        self.collided = False
+
         # load the sequences
         self.imageSequences = {}
         load = lambda fn,flip_x: pyglet.resource.image(fn, flip_x=flip_x)
@@ -55,13 +61,14 @@ class Entity:
                 'Left':[load(f'{imageLocation}/{animation} ({i}).png', True) for i in range(start, end)],\
                 'Right':[load(f'{imageLocation}/{animation} ({i}).png', False) for i in range(start, end)]\
             }
-        
+
         # Some basic settings
         self.animationSpeed = speed
         self.animationScale = scale
         self.animationLoop = loop
         self.x = x
         self.y = y
+        self.body = RigidBody(self.x - width/2, self.y, width, height, type)
 
         self.state = list(animationTypes)[0]
         self.direction = 'Right'
@@ -71,7 +78,44 @@ class Entity:
 
     # interact with the engine here somehow (rigid bodies?)
     def isInAir(self):
-        return False
+        return self.collided
+
+    def update(self, dt):
+        self.body.update(dt)
+        self.x = (self.body.left()+self.body.right())/2
+        self.y = self.body.bottom()
+        self.animation = self.__getSprite()
+
+    def isColliding(self, other):
+        if type(other) is not RigidBody:
+            return self.body.isColliding(other.body)
+        else:
+            return self.body.isColliding(other)
+
+    def checkCollisions(self, objects):
+        # objects is a [Entity...]
+        self.collided = False
+        for object in objects:
+            if object is self:
+                continue
+
+            collision = object.isColliding(self.body)
+            if collision[0]:
+                self.collided = True    
+                # I was trying really hard to avoid having hard coded values like these to make the game more expandable
+                if self.body.getType() == 'player' and collision[1] == 'enemy':
+                    self.log(f'player hit by {object}')
+                    self.hp -= 20 # again, hard coding - not my favorite #TODO - refactor this code
+                elif self.body.getType() == 'enemy' and collision[1] == 'weapon':
+                    self.hp -= 50 
+                elif collision[1] == 'tile':
+                    self.body.velocity = Vector(0,0)
+
+    def checkTileCollisions(self, tiles):
+        for tile in tiles:
+            for bodies in tile.rows:
+                self.checkCollisions(bodies)
+
 
     # convert the given state and direction into a Sprite for display
     def __getSprite(self):
@@ -116,6 +160,19 @@ class Entity:
     def draw(self, t=0, *other):
         # display the animation of the current state 
         self.animation.draw()
+
+        # draw the body for debugging
+        glColor3f(0,1,0)
+        glBegin(GL_LINE_LOOP)
+        body = self.body
+        # do the four sides of a box
+        glVertex3f(body.left(), body.top(), 0.0)
+        glVertex3f(body.right(), body.top(), 0.0)
+        glVertex3f(body.right(), body.bottom(), 0.0)
+        glVertex3f(body.left(), body.bottom(), 0.0)
+
+        glEnd()
+        glColor3f(1,1,1)
 
         # check to see what sound to play
         # right now it allows a user to hold down a button and it will spam the sound

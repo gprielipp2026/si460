@@ -15,7 +15,9 @@ class Game(pyglet.window.Window):
     # Update the world time based on time elapsed in the real world
     # since we started the Game Class.
     def updateClock(self, dt):
+        prev = self.worldTime
         self.worldTime = time.time() - self.startTime
+        self.dt = self.worldTime - prev
         # A temporary background mover as a demo...
         #print(self.background_x + self.background.width, self.width)
         # I want this to loop appropriately
@@ -51,6 +53,7 @@ class Game(pyglet.window.Window):
 
         # Lets set a global clock
         self.worldTime = 0.0
+        self.dt = 0.0
         self.startTime = time.time()
 
         # Create the Background, this is one method of creating images,
@@ -85,9 +88,19 @@ class Game(pyglet.window.Window):
             if 'on_key_release' in dir(entity):
                 entity.on_key_release(symbol, modifiers)
 
+    # move all of the characters and detect collisions
+    def update(self):
+        for entity in self.entities:
+            entity.checkCollisions(self.entities)
+            entity.checkTileCollisions(self.tiles)
+            
+            entity.update(self.dt)
+
+
     # Event Handler for drawing the screen
     #@window.event
     def on_draw(self):
+        self.update()
 
         # Clear the window (a good way to start things)
         self.clear()
@@ -141,7 +154,7 @@ def loadAllImages(filepath='mylevel/sprites'):
 if __name__ == '__main__':
     #print(loadAllImages('mylevel/sprites') | loadAllImages('mylevel/objects') | loadAllImages('mylevel/tiles'))
     
-    entities = [Player(), Enemy(), Enemy()]
+    entities = [Player(), Enemy(x=300), Enemy(x=460)]
     tiles = [Landmass([[1,1,0,0,0,0,0,0],[1,1,1,1,1,1,0,0],[1,1,1,1,1,1,0,0]], 0, 216)]
 
     myGame = Game(800, 600, "SI460 Game", entities, tiles)

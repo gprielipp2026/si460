@@ -26,10 +26,7 @@ class Enemy(Entity):
 
         ID = random.randint(left, right) 
         
-        while x == 380:
-            x = x + random.randint(-1,1) * random.randint(50,100)
-        
-        super().__init__(f'mylevel/sprites/enemy-{ID}', speed, scale, loop, x, y)
+        super().__init__('enemy', f'mylevel/sprites/enemy-{ID}', speed, scale, loop, x, y, 200*scale, 400*scale)
        
         self.stateID = self.availableStates.index('Idle') 
         self.updateState(self.availableStates[self.stateID])
