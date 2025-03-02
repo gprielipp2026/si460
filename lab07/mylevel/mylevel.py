@@ -28,7 +28,12 @@ class Level:
     # Here is a complete drawBoard function which will draw the terrain.
     # Lab Part 1 - Draw the board here
     def drawBoard(self, level, delta_x=0, delta_y=0, height=50, width=50):
-        pass
+        # level = dict(str:dict(str:str)), level[row][col] = filename
+        for row, val in level.items():
+            for col, img in val.items():
+                x = int(col) * width  + delta_x
+                y = int(row) * height + delta_y
+                img.blit(x,y,width=width, height=height)
 
     def draw(self, t=0, width=800, height=600, keyTracking={}, mouseTracking=[], *other):
 
