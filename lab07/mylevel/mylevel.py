@@ -24,6 +24,11 @@ class Level:
         self.enemies = enemies
 
         # Music in the Background
+        self.backgroundMusic = pyglet.media.Player()
+        self.backgroundMusic.queue(pyglet.media.load('mylevel/music/background-music.wav', streaming=True))
+        self.backgroundMusic.eos_action = 'loop'
+        self.backgroundMusic.loop = True
+        self.backgroundMusic.play()
 
     # Here is a complete drawBoard function which will draw the terrain.
     # Lab Part 1 - Draw the board here
