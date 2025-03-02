@@ -49,7 +49,7 @@ class Game:
             if symbol == pyglet.window.key.END:
                 self.screenshot = self.screenshot + 1
                 pyglet.image.get_buffer_manager().get_color_buffer().save(sys.argv[-1]+'.'+str(self.screenshot)+'.png')
-                print(f'Image saved at \'{sys.argv[-1]+'.'+str(self.screenshot)+'.png'}\'')
+                print(f'Image saved at \'{sys.argv[-1]+"."+str(self.screenshot)+".png"}\'')
             self.keyTracking[symbol] = modifiers
 
         # Handle Key Releases in our World

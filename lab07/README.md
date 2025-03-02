@@ -1,4 +1,6 @@
-# Part 1
+# README
+
+## Part 1
 
 ```text
 Files changed:
@@ -8,10 +10,20 @@ Files changed:
 - game.py
 ```
 
-# Part 2
+## Part 2
 
 ```text
 Files changed:
 
 - mylevel/mylevel.py
+```
+
+## Part 3
+
+```text
+File changed:
+
+- mylevel/player.py
+- mylevel/part3.png
+- game.py
 ```
