@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # Important Libraries
-import pyglet, config
+import pyglet, config, random
 
 # Our Hero Class
 class Player:
@@ -33,6 +33,16 @@ class Player:
 
         # Build the starting character sprite
         self.changeSprite()
+
+        # save the sounds
+        load = lambda x: pyglet.media.load(f'mylevel/music/{x}.wav', streaming=False)
+        self.sounds = {
+            'attack': [load('attack')],
+            'jump': [load('jump'), load('jump2')],
+            'throw': [load('throw')],
+            'win': [load('win')],
+            'lose': [load('hero_death')]
+        }
 
     # Build the initial character
     def changeSprite(self, mode=None, facing=None):

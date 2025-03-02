@@ -25,8 +25,9 @@ class Enemy(Entity):
             right = max(num, right)
 
         ID = random.randint(left, right) 
-
-        x = x + random.randint(-1,1) * random.randint(40,100)
+        
+        while x == 380:
+            x = x + random.randint(-1,1) * random.randint(50,100)
         
         super().__init__(f'mylevel/sprites/enemy-{ID}', speed, scale, loop, x, y)
        

@@ -3,7 +3,7 @@
 # Important Libraries
 import pyglet
 from pyglet.window import key
-import time, sys, importlib
+import time, sys, importlib, os, glob, re
 
 from enemy import Enemy
 
@@ -84,8 +84,38 @@ class Game(pyglet.window.Window):
         for player in self.players:
             player.draw(self.worldTime)
 
+def loadAllImages(filepath='mylevel/sprites'):
+    dirs = os.listdir(filepath)
+    images = {}
+    load = lambda loc,flip_x: pyglet.resource.image(loc, flip_x=flip_x)
+    for name in dirs:
+        images[name] = dict() 
+        minMaxes = dict()
+        for file in glob.glob(f'{filepath}/{name}/*.png'):
+            matches = re.search(r'([a-zA-Z]+)\ (\(\d+\))\.png', file)
+            if matches is None:
+                continue
+
+            animation = matches.group(1)
+            seq = int(matches.group(2)[1:-1])
+            if animation not in minMaxes:
+                minMaxes[animation] = (seq, seq)
+            else:
+                pmin, pmax = minMaxes[animation]
+                minMaxes[animation] = (min(pmin, seq), max(pmax, seq))
+        for animation, startEnd in minMaxes.items():
+            start,end = startEnd
+            end += 1
+            images[name][animation] = {\
+                'Left': [load(f'{filepath}/{name}/{animation} ({i}).png', True) for i in range(start, end)],\
+                'Right': [load(f'{filepath}/{name}/{animation} ({i}).png', False) for i in range(start, end)],\
+            }
+    return images
+
 # Load in any requested objects from the command then, then start the game.
 if __name__ == '__main__':
+    #print(loadAllImages('mylevel/sprites') | loadAllImages('mylevel/objects') | loadAllImages('mylevel/tiles'))
+        
     worldPlayers = []
     for objectFile in sys.argv[1:]:
         print('Loading', objectFile)
@@ -98,6 +128,6 @@ if __name__ == '__main__':
                 worldPlayers.append(objects[i])
    
     worldPlayers.extend([Enemy(), Enemy()])
-
+    
     myGame = Game(800, 600, "SI460 Game", worldPlayers)
     pyglet.app.run()
