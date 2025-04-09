@@ -155,7 +155,6 @@ class Scene(Window):
         # self.WireCube(30)
         
         # draw the triangle mesh
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
         glColor4f(1,1,1,1)
         for row in range(self.M_height-1):
             for col in range(self.M_width-1):
@@ -165,6 +164,7 @@ class Scene(Window):
                     glVertex3f(x,y,z)
                 glEnd()
  
+
     def get_color(self, val):
         # stop - start + 1
         rangewidth = self.thresholds[1] - self.thresholds[0] + 1

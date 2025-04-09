@@ -21,6 +21,7 @@ class Scene(Window):
         self.upperX = -self.M_width  / 2.0
         self.upperY =  self.M_height / 2.0
 
+        # doing the hemisphere
         self.thresholds = thresholds
 
         print(f'Matrix is: {self.M_width}x{self.M_height}')
@@ -33,9 +34,12 @@ class Scene(Window):
         self.scale = np.array([0,0,1,1])
         self.arcball = Mat4.from_rotation(0.0, Vec3(0,0,0))
 
-    def z(self,x,y):
+    def z(self,x,y,radius=None):
+        if radius is None:
+            radius = self.height
+
         condition = pow(x-self.width/2.0, 2) + pow(y-self.height/2.0, 2)
-        check = pow(self.height/2.0, 2)
+        check = pow(radius/2.0, 2)
         if condition < check:
             return np.sqrt(check - condition)
         else:
@@ -114,7 +118,14 @@ class Scene(Window):
         
         return ((ax,ay, a), (ax+1,ay, b), (ax+1,ay-1, c), (ax,ay-1, d))
 
-    def on_draw(self, dt=0):            # not sure what np.arccos is getting that is wrong but it does sometimes error
+    def hemisphere(self, row, col, radius, step):
+        x = self.width + col
+        y = self.height - row
+
+        return ((x,y, self.z(x,y)), (x+step, y, self.z(x+step,y)), (x+step, y-step, self.z(x+step,y-step)), (x,y-step,self.z(x,y-step)))
+
+
+    def on_draw(self, dt=0):            
 
         # clear the screen
         self.clear()
@@ -155,16 +166,17 @@ class Scene(Window):
         # self.WireCube(30)
         
         # draw the triangle mesh
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
         glColor4f(1,1,1,1)
-        for row in range(self.M_height-1):
-            for col in range(self.M_width-1):
+        for row in self.gen(0.0,self.height,0.1):
+            for col in self.gen(0.0, self.width, 0.1):
                 glBegin(GL_TRIANGLE_FAN)
-                for x, y, z in self.square(row, col):
+                for x, y, z in self.hemisphere(row, col, 20, 0.1):
                     glColor4f(*self.get_color(z))
                     glVertex3f(x,y,z)
                 glEnd()
+        print('done drawing hemisphere')
  
+
     def get_color(self, val):
         # stop - start + 1
         rangewidth = self.thresholds[1] - self.thresholds[0] + 1
