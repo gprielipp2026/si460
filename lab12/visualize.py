@@ -73,8 +73,8 @@ class Scene(Window):
             det = np.linalg.norm(self.p1) * np.linalg.norm(self.p2)
             
             # not sure what np.arccos is getting that is wrong but it does sometimes error
-            #print(np.dot(self.p1, self.p2)/det)
-            theta = np.arccos( np.dot(self.p1, self.p2) / det ) 
+            theta = np.arccos( round(np.dot(self.p1, self.p2) / det, 5) ) 
+
             u = np.cross(self.p1, self.p2) / det
             norm = np.linalg.norm(u)
             u /= norm if norm != 0 else 1 
