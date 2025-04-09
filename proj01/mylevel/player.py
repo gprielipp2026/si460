@@ -22,6 +22,8 @@ class Player:
         self.buildSprite  = buildSprite
         self.playerSprite = None
 
+        self.hp = 100
+
         # Some basic settings
         self.animationSpeed = speed
         self.animationScale = scale
@@ -49,8 +51,33 @@ class Player:
             'lose': [load('hero_death')]
         }
 
+        self.updatelabel()
+
+    def updatelabel(self):
+        x,y=self.playerSprite.x, self.playerSprite.y
+        self.position = pyglet.text.Label(f'({x:.2f}, {y:.2f}) => ({x//50},{y//50})',x=100,y=580) # hard coded numbers
+
+    # for collision detection
+    def collide(self, level, width, height):
+        testY = self.playerSprite.y - 10 # "gravity"
+        testX = self.playerSprite.x
+
+        modifier = 1 if self.facing == 'Right' else -1
+
+        coordY = testY // height
+        coordX = testX // width
+
+        if coordY in level:
+            if coordX not in level[coordY]:
+                self.playerSprite.y -= 50
+            
+            
+
     # Build the initial character
     def changeSprite(self, mode=None, facing=None):
+        if self.mode == mode and self.facing == facing:
+            return
+
         if mode is not None:
             self.mode = mode
         if facing is not None:
@@ -86,7 +113,7 @@ class Player:
         lrconstant = 15 # the movement was a little too sluggish
         jumpconstant = 20 # too sluggish
         self.playerSprite.x += direction * (9 if isRunning else 3 if isMoving else 0) * self.dt * lrconstant
-        self.playerSprite.y += (3 if isJumping else 0) * self.dt * jumpconstant
+        self.playerSprite.y += (30 if isJumping else 0) * self.dt * jumpconstant
 
         mode = 'Idle'
         if isJumping:
@@ -94,7 +121,8 @@ class Player:
         elif isRunning or isMoving:
             mode = 'Run'
 
-        self.changeSprite(mode=mode)
+        self.changeSprite(mode=mode, facing=self.facing)
+        self.updatelabel()
         
     # Draw our character
     def draw(self, t=0, keyTracking={}, *other):
@@ -103,3 +131,5 @@ class Player:
 
         self.movement(t, keyTracking)
         self.playerSprite.draw()
+
+        self.position.draw()

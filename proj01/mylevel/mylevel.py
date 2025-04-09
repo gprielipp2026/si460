@@ -53,9 +53,11 @@ class Level:
 
         # Draw the enemies
         for enemy in self.enemies:
+            enemy.collide(config.level, config.height, config.width)
             enemy.draw(t)
 
         # Draw the hero.
+        self.hero.collide(config.level, config.height, config.width)
         self.hero.draw(t, keyTracking)
 
 # Load all game sprites
