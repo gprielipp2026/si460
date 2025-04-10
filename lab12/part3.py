@@ -36,10 +36,13 @@ class Scene(Window):
 
     def z(self,x,y,radius=None):
         if radius is None:
-            radius = self.height
+            r1 = self.height / 2.0
+            r2 = self.width / 2.0
+        else:
+            r1 = r2 = radius
 
-        condition = pow(x-self.width/2.0, 2) + pow(y-self.height/2.0, 2)
-        check = pow(radius/2.0, 2)
+        condition = pow(x-r1, 2) + pow(y-r2, 2)
+        check = pow(r2, 2)
         if condition < check:
             return np.sqrt(check - condition)
         else:
@@ -118,11 +121,8 @@ class Scene(Window):
         
         return ((ax,ay, a), (ax+1,ay, b), (ax+1,ay-1, c), (ax,ay-1, d))
 
-    def hemisphere(self, row, col, radius, step):
-        x = self.width + col
-        y = self.height - row
-
-        return ((x,y, self.z(x,y)), (x+step, y, self.z(x+step,y)), (x+step, y-step, self.z(x+step,y-step)), (x,y-step,self.z(x,y-step)))
+    def hemisphere(self, x, y, radius, step):
+        return ((x,y, self.z(x,y,radius)), (x+step, y, self.z(x+step,y,radius)), (x+step, y-step, self.z(x+step,y-step,radius)), (x,y-step,self.z(x,y-step,radius)))
 
 
     def on_draw(self, dt=0):            
@@ -162,25 +162,28 @@ class Scene(Window):
 
  
         # cube to help visualize rotation
-        # glColor4f(0.0,1.0,0.0,1.0)
-        # self.WireCube(30)
+        #glColor4f(0.0,1.0,0.0,1.0)
+        #self.WireCube(30)
         
         # draw the triangle mesh
         glColor4f(1,1,1,1)
-        for row in self.gen(0.0,self.height,0.1):
-            for col in self.gen(0.0, self.width, 0.1):
+        radius = 20
+        step = 1.0
+        for y in self.gen(-2*radius,2*radius+step,step):
+            for x in self.gen(-2*radius, 2*radius+step, step):
                 glBegin(GL_TRIANGLE_FAN)
-                for x, y, z in self.hemisphere(row, col, 20, 0.1):
-                    glColor4f(*self.get_color(z))
-                    glVertex3f(x,y,z)
+                for xs, ys, zs in self.hemisphere(x, y, radius, step):
+                    glColor4f(*self.get_color(zs))
+                    glVertex3f(xs,ys,zs)
                 glEnd()
-        print('done drawing hemisphere')
  
 
     def get_color(self, val):
         # stop - start + 1
         rangewidth = self.thresholds[1] - self.thresholds[0] + 1
         percent = val / rangewidth
+        if percent <= 0.01:
+            percent = 0.1
         return (percent, percent, percent, 1.0)
 
 
