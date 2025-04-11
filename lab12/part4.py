@@ -124,6 +124,20 @@ class Scene(Window):
     def hemisphere(self, x, y, radius, step):
         return ((x,y, self.z(x,y,radius)), (x+step, y, self.z(x+step,y,radius)), (x+step, y-step, self.z(x+step,y-step,radius)), (x,y-step,self.z(x,y-step,radius)))
 
+    def sombrero(self, x, y, radius, step,zscale=1):
+        z = lambda r: zscale*(np.sin(r) / float(r)) if abs(r) > 0 else zscale
+        r = lambda x,y: np.sqrt(pow(x,2) + pow(y,2))
+        """
+        clockwise function
+        a b
+        d c
+        """
+        a = (x, y, z(r(x,y)))
+        b = (x+step, y, z(r(x+step, y)))
+        c = (x+step, y-step, z(r(x+step, y-step)))
+        d = (x, y-step, z(r(x,y-step)))
+        
+        return (a, b, c, d)
 
     def on_draw(self, dt=0):            
 
@@ -164,18 +178,60 @@ class Scene(Window):
         #glColor4f(0.0,1.0,0.0,1.0)
         #self.WireCube(30)
         
-        # draw the triangle mesh
-        glColor4f(1,1,1,1)
-        radius = 20
-        step = 0.5
-        for y in self.gen(0,2*radius+step,step):
-            for x in self.gen(0, 2*radius+step, step):
-                glBegin(GL_TRIANGLE_FAN)
-                for xs, ys, zs in self.hemisphere(x, y, radius, step):
-                    glColor4f(*self.get_color(zs))
-                    glVertex3f(xs,ys,zs)
-                glEnd()
- 
+        # make the sombrero
+        radius = 40
+        step = 1
+        zscale = 10
+        sidelen = int(np.floor(2 * radius / step))
+        M = np.zeros((sidelen,sidelen,3), dtype=np.float64)
+        fz = lambda r: zscale*(np.sin(r) / float(r)) if abs(r) > 0 else 1
+        fr = lambda x,y: np.sqrt(pow(x,2) + pow(y,2))
+        maxval = 0.0
+        minval = 10000.0
+        for row in range(sidelen):
+            for col in range(sidelen):
+                x = col - sidelen / 2.0
+                y = sidelen / 2.0 - row
+                z = fz(fr(x,y))
+                maxval = max(z,maxval)
+                minval = min(z,minval)
+                M[row][col] = np.array([x,y,z])
+        self.thresholds = (minval, maxval, step)
+        # draw the sombrero
+        glBegin(GL_TRIANGLES)
+        for row in range(sidelen-1):
+            for col in range(sidelen-1):
+                """
+                a b
+                c d
+                """
+                
+                a = M[row  ][col  ]
+                b = M[row  ][col+1]
+                c = M[row+1][col  ]
+                d = M[row+1][col+1]
+
+                ca = self.get_color(a[2])
+                cb = self.get_color(b[2])
+                cc = self.get_color(c[2])
+                cd = self.get_color(d[2])
+
+                glColor4f(*ca)
+                glVertex3f(*a)
+                glColor4f(*cb)
+                glVertex3f(*b)
+                glColor4f(*cc)
+                glVertex3f(*c)
+
+                glColor4f(*cb)
+                glVertex3f(*b)
+                glColor4f(*cc)
+                glVertex3f(*c)
+                glColor4f(*cd)
+                glVertex3f(*d)
+
+        glEnd()
+
 
     def get_color(self, val):
         # stop - start + 1
