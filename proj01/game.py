@@ -46,6 +46,9 @@ class Game:
         # Handle Key Presses in our World
         @self.window.event
         def on_key_press(symbol, modifiers):
+            if modifiers & pyglet.window.key.MOD_CTRL and symbol == pyglet.window.key.C:
+                print('exiting...')
+                sys.exit(0)
             if symbol == pyglet.window.key.END:
                 self.screenshot = self.screenshot + 1
                 pyglet.image.get_buffer_manager().get_color_buffer().save(sys.argv[-1]+'.'+str(self.screenshot)+'.png')

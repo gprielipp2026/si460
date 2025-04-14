@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # Important Libraries
-import pyglet, config, random
+import pyglet, config, random, math
 from pyglet.window import key
 
 # Our Hero Class
@@ -33,6 +33,10 @@ class Player:
         self.playerClass    = playerClass
         self.mode           = mode
         self.facing         = facing
+        self.fallingSpeed   = 0.0
+        self.step           = 0
+        self.isFalling      = False
+        self.isJumping      = False
 
         # Build the starting character sprite
         self.changeSprite()
@@ -59,7 +63,7 @@ class Player:
 
     # for collision detection
     def collide(self, level, width, height):
-        testY = self.playerSprite.y - 10 # "gravity"
+        testY = self.playerSprite.y - 3
         testX = self.playerSprite.x
 
         modifier = 1 if self.facing == 'Right' else -1
@@ -69,7 +73,12 @@ class Player:
 
         if coordY in level:
             if coordX not in level[coordY]:
-                self.playerSprite.y -= 50
+                self.isFalling = True
+                # print('in the air')
+            else:
+                # print('colliding')
+                
+                self.isFalling = False
             
             
 
@@ -85,6 +94,7 @@ class Player:
         if self.playerSprite is not None:
             self.animationX = self.playerSprite.x
             self.animationY = self.playerSprite.y
+
         self.playerSprite = self.buildSprite(self.sprites,
                                              self.playerClass,
                                              self.mode,
@@ -110,19 +120,42 @@ class Player:
         isRunning = (key.LSHIFT in keyTracking or key.RSHIFT in keyTracking) and isMoving
         direction = -1 if self.facing == 'Left' else 1 # multiplier
 
-        lrconstant = 15 # the movement was a little too sluggish
-        jumpconstant = 20 # too sluggish
-        self.playerSprite.x += direction * (9 if isRunning else 3 if isMoving else 0) * self.dt * lrconstant
-        self.playerSprite.y += (30 if isJumping else 0) * self.dt * jumpconstant
-
         mode = 'Idle'
-        if isJumping:
+        if isJumping:           
             mode = 'Jump'
+            if not self.isJumping:
+                print('moving upwards')
+                self.fallingSpeed = 0.0
+                self.step = 0
+        elif self.isFalling and not self.isJumping:
+            mode = 'Glide'
         elif isRunning or isMoving:
             mode = 'Run'
 
+
+        if self.isFalling or isJumping:
+            if self.step == 0:
+                self.fallingSpeed = 1.0
+
+            if self.step > 15 and self.fallingSpeed < 45:
+                self.fallingSpeed *= 1.1
+
+            if self.step <= 15:
+                # y speed is 160
+                self.playerSprite.y += math.sin(math.radians(90.0/15.0*self.step)) * 720 * self.dt
+            else:
+                self.playerSprite.y -= self.fallingSpeed * self.dt
+                self.isJumping = False
+
+            self.step += 1
+
+        self.playerSprite.x += direction * 100 * (1.5 if isRunning else 1) * (1 if isMoving else 0) * self.dt
+
+
         self.changeSprite(mode=mode, facing=self.facing)
         self.updatelabel()
+
+
         
     # Draw our character
     def draw(self, t=0, keyTracking={}, *other):
