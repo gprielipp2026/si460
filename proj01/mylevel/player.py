@@ -37,6 +37,7 @@ class Player:
         self.step           = 0
         self.isFalling      = False
         self.isJumping      = False
+        self.isMoving       = False
 
         # Build the starting character sprite
         self.changeSprite()
@@ -63,28 +64,35 @@ class Player:
 
     # for collision detection
     def collide(self, level, width, height):
-        testY = self.playerSprite.y - 3
-        testX = self.playerSprite.x
+        testY = self.playerSprite.y
+        testX = self.playerSprite.x 
 
         modifier = 1 if self.facing == 'Right' else -1
 
         coordY = testY // height
         coordX = testX // width
-
+        
+        minX, maxX = width * coordX, width * (coordX + 1)
         if coordY in level:
             if coordX not in level[coordY]:
                 self.isFalling = True
-                # print('in the air')
             else:
-                # print('colliding')
-                
                 self.isFalling = False
-            
+            if coordY + 1 in level:
+                if coordX in level[coordY+1]:
+                    if testX >= minX and testX <= maxX:
+                        dl, dr = testX - minX, maxX - testX
+                        if dr > dl:
+                            self.playerSprite.x = minX 
+                        else:
+                            self.playerSprite.x = maxX 
+            if testY <= (coordY+1) * height and coordY + 1 in level and coordX in level[coordY + 1]:
+                self.playerSprite.y = (coordY + 1)* height
             
 
     # Build the initial character
     def changeSprite(self, mode=None, facing=None):
-        if self.mode == mode and self.facing == facing:
+        if self.mode == mode and mode != 'Glide':
             return
 
         if mode is not None:
@@ -121,19 +129,17 @@ class Player:
         direction = -1 if self.facing == 'Left' else 1 # multiplier
 
         mode = 'Idle'
-        if isJumping:           
-            mode = 'Jump'
-            if not self.isJumping:
-                print('moving upwards')
-                self.fallingSpeed = 0.0
-                self.step = 0
+        if isJumping and not self.isFalling and not self.isJumping:           
+            self.isJumping = True
+            self.fallingSpeed = 0.0
+            self.step = 0
         elif self.isFalling and not self.isJumping:
             mode = 'Glide'
         elif isRunning or isMoving:
             mode = 'Run'
 
 
-        if self.isFalling or isJumping:
+        if self.isFalling or self.isJumping:
             if self.step == 0:
                 self.fallingSpeed = 1.0
 
@@ -142,7 +148,8 @@ class Player:
 
             if self.step <= 15:
                 # y speed is 160
-                self.playerSprite.y += math.sin(math.radians(90.0/15.0*self.step)) * 720 * self.dt
+                mode = 'Jump'
+                self.playerSprite.y += math.sin(math.radians(90.0/15.0*self.step)) * 1500 * self.dt
             else:
                 self.playerSprite.y -= self.fallingSpeed * self.dt
                 self.isJumping = False
