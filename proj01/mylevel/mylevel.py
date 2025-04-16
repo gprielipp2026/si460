@@ -67,6 +67,16 @@ gameSprites = sprites.loadAllImages(config.spritespath)
 # Load in the hero
 print('Loading the Hero...')
 from player import Player
+
+load = lambda x: pyglet.media.load(f'mylevel/music/{x}.wav', streaming=False)
+heroSounds = {
+    'attack': [load('attack')],
+    'jump': [load('jump'), load('jump2')],
+    'throw': [load('throw')],
+    'win': [load('win')],
+    'lose': [load('hero_death')]
+}
+
 hero = Player(gameSprites,
               sprites.buildSprite,
               "hero", "Idle", "Right",
@@ -74,11 +84,27 @@ hero = Player(gameSprites,
               config.playerSpriteScale,
               True,
               config.playerStartCol * config.width,
-              config.playerStartRow * config.height)
+              config.playerStartRow * config.height,
+              sounds=heroSounds)
 
 # Load in the Enemies
 print('Loading the Enemies...')
-enemies = []
+
+enemySounds = {
+    'attack': [load('attack')],
+    'lose': [load('enemy_death')],
+}
+enemyConfigs = ()
+
+enemies = [Player(gameSprites,
+              sprites.buildSprite,
+              "enemy-1", "Idle", "Right",
+              config.playerSpriteSpeed,
+              config.playerSpriteScale,
+              True,
+              config.playerStartCol * config.width,
+              config.playerStartRow * config.height, 
+              sounds=enemySounds) for _ in range(1)]
 
 # provide the level to the game engine
 print('Starting level:', config.levelName)

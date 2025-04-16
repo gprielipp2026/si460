@@ -15,7 +15,8 @@ class Player:
                        scale=0.15,
                        loop=True,
                        x=380,
-                       y=250):
+                       y=250,
+                       sounds=None):
 
         # Store the sprites, and the sprite building function
         self.sprites      = sprites
@@ -38,6 +39,7 @@ class Player:
         self.isFalling      = False
         self.isJumping      = False
         self.isMoving       = False
+        self.position       = None
 
         # Build the starting character sprite
         self.changeSprite()
@@ -47,20 +49,14 @@ class Player:
         self.dt = 0
 
         # save the sounds
-        load = lambda x: pyglet.media.load(f'mylevel/music/{x}.wav', streaming=False)
-        self.sounds = {
-            'attack': [load('attack')],
-            'jump': [load('jump'), load('jump2')],
-            'throw': [load('throw')],
-            'win': [load('win')],
-            'lose': [load('hero_death')]
-        }
+        self.sounds =  sounds
 
         self.updatelabel()
 
     def updatelabel(self):
-        x,y=self.playerSprite.x, self.playerSprite.y
-        self.position = pyglet.text.Label(f'({x:.2f}, {y:.2f}) => ({x//50},{y//50})',x=100,y=580) # hard coded numbers
+        if self.playerClass == "hero":
+            x,y=self.playerSprite.x, self.playerSprite.y
+            self.position = pyglet.text.Label(f'({x:.2f}, {y:.2f}) => ({x//50},{y//50})',x=100,y=580) # hard coded numbers
 
     # for collision detection
     def collide(self, level, width, height):
@@ -78,17 +74,19 @@ class Player:
                 self.isFalling = True
             else:
                 self.isFalling = False
+            # horizontal edge detection and correction
             if coordY + 1 in level:
                 if coordX in level[coordY+1]:
                     if testX >= minX and testX <= maxX:
                         dl, dr = testX - minX, maxX - testX
                         if dr > dl:
-                            self.playerSprite.x = minX 
+                            self.playerSprite.x = minX
+                            coordX = minX // width 
                         else:
                             self.playerSprite.x = maxX 
+                            coordX = maxX // width
             if testY <= (coordY+1) * height and coordY + 1 in level and coordX in level[coordY + 1]:
                 self.playerSprite.y = (coordY + 1)* height
-            
 
     # Build the initial character
     def changeSprite(self, mode=None, facing=None):
@@ -121,6 +119,10 @@ class Player:
 
     # Move the character
     def movement(self, t=0, keyTracking={}): 
+        if 'enemy' in self.playerClass:
+            self.ai(t)
+            return
+
         self.interpretAnimation(keyTracking)
 
         isMoving  = key.LEFT in keyTracking or key.RIGHT in keyTracking
@@ -133,7 +135,7 @@ class Player:
             self.isJumping = True
             self.fallingSpeed = 0.0
             self.step = 0
-        elif self.isFalling and not self.isJumping:
+        elif self.isFalling and not self.isJumping and isMoving:
             mode = 'Glide'
         elif isRunning or isMoving:
             mode = 'Run'
@@ -145,16 +147,20 @@ class Player:
 
             if self.step > 15 and self.fallingSpeed < 45:
                 self.fallingSpeed *= 1.1
+            if not isMoving and self.step > 15 and self.fallingSpeed < 120:
+                self.fallingSpeed *= 1.3
+            elif isMoving and self.fallingSpeed > 45:
+                self.fallingSpeed = 45
 
-            if self.step <= 15:
+            if self.step <= 15 and self.isJumping:
                 # y speed is 160
                 mode = 'Jump'
-                self.playerSprite.y += math.sin(math.radians(90.0/15.0*self.step)) * 1500 * self.dt
+                self.playerSprite.y += math.sin(math.radians(90.0/15.0*self.step)) * 15 
             else:
                 self.playerSprite.y -= self.fallingSpeed * self.dt
                 self.isJumping = False
 
-            self.step += 1
+            self.step += 1.0
 
         self.playerSprite.x += direction * 100 * (1.5 if isRunning else 1) * (1 if isMoving else 0) * self.dt
 
@@ -162,6 +168,13 @@ class Player:
         self.changeSprite(mode=mode, facing=self.facing)
         self.updatelabel()
 
+    # movement for enemies
+    def ai(self, t):
+        # try walking forwards:
+        direction = -1 if self.facing == 'Left' else 1
+        stepX = self.playerSprite.x + 100 * direction * self.dt
+
+        # if edge, turn around
 
         
     # Draw our character
@@ -171,5 +184,7 @@ class Player:
 
         self.movement(t, keyTracking)
         self.playerSprite.draw()
+        
+        if self.position is not None:
+            self.position.draw()
 
-        self.position.draw()

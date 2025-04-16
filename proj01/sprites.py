@@ -63,7 +63,11 @@ def buildSprite(sprites={}, character="hero", mode="Run", facing="Right",
                 animationX=400, animationY=300):
 
     # Grab the correct sequence of images
-    playerSequence = sprites[character][mode][facing]
+    playerSequence = None
+    try:
+        playerSequence = sprites[character][mode][facing]
+    except:
+        playerSequence = sprites[character]['Idle'][facing]
 
     # Build the pyglet animation sequence
     playerAnimation = pyglet.image.Animation.from_image_sequence(playerSequence,
