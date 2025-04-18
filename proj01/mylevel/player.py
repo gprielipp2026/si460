@@ -23,6 +23,7 @@ class Player:
         self.buildSprite  = buildSprite
         self.playerSprite = None
 
+        # number of hits the hero can take
         self.hp = 100
 
         # Some basic settings
@@ -40,6 +41,7 @@ class Player:
         self.isJumping      = False
         self.isMoving       = False
         self.position       = None
+        self.isAttacking    = None
 
         # Build the starting character sprite
         self.changeSprite()
@@ -53,13 +55,19 @@ class Player:
 
         self.updatelabel()
 
+    def set_level(self, level, width, height):
+        self.level = level
+        self.width = width
+        self.height = height
+
     def updatelabel(self):
         if self.playerClass == "hero":
             x,y=self.playerSprite.x, self.playerSprite.y
             self.position = pyglet.text.Label(f'({x:.2f}, {y:.2f}) => ({x//50},{y//50})',x=100,y=580) # hard coded numbers
 
     # for collision detection
-    def collide(self, level, width, height):
+    def collide(self, enemies=[]):
+        level, width, height = self.level, self.width, self.height
         testY = self.playerSprite.y
         testX = self.playerSprite.x 
 
@@ -88,10 +96,35 @@ class Player:
             if testY <= (coordY+1) * height and coordY + 1 in level and coordX in level[coordY + 1]:
                 self.playerSprite.y = (coordY + 1)* height
 
+        # check collisions of the enemies
+
+        for enemy in enemies:
+            ex,ey = enemy.getX(), enemy.getY()
+            gridEX = ex // width
+            gridEY = ey // height
+            coordX = getX() // width
+            coordY = getY() // height
+
+            # player can sustain 2 hits
+            
+
+    def manageDeath(self):
+        pass
+
+    def hit(self, points):
+        self.hp -= points
+        if self.hp <= 0:
+            self.manageDeath()
+
+    def getX(self):
+        return self.playerSprite.x
+    def getY(self):
+        return self.playerSprite.y
+
     # Build the initial character
     def changeSprite(self, mode=None, facing=None):
-        if self.mode == mode and mode != 'Glide':
-            return
+        # if self.mode == mode and mode != 'Glide':
+        #     return
 
         if mode is not None:
             self.mode = mode
@@ -113,21 +146,30 @@ class Player:
 
     # figure out which animation should be showing
     def interpretAnimation(self, keyTracking={}):
-        self.facing = 'Left' if key.LEFT in keyTracking else 'Right' if key.RIGHT in keyTracking else self.facing
-        isJumping = key.SPACE in keyTracking
-        isAttacking = key.LCTRL in keyTracking or key.RCTRL in keyTracking
+        facing = self.facing
+        
+        if key.LEFT in keyTracking and key.RIGHT in keyTracking:
+            pass
+        elif key.LEFT in keyTracking:
+            facing = 'Left'
+        elif key.RIGHT in keyTracking:
+            facing = 'Right'
+
+        if facing != self.facing:
+            self.changeSprite(mode=self.mode, facing=facing)
+        self.facing = facing
+        
+        
 
     # Move the character
     def movement(self, t=0, keyTracking={}): 
-        if 'enemy' in self.playerClass:
-            self.ai(t)
-            return
-
         self.interpretAnimation(keyTracking)
 
         isMoving  = key.LEFT in keyTracking or key.RIGHT in keyTracking
         isJumping = key.SPACE in keyTracking 
         isRunning = (key.LSHIFT in keyTracking or key.RSHIFT in keyTracking) and isMoving
+        isAttacking = key.LCTRL in keyTracking or key.RCTRL in keyTracking
+        isThrowing  = key.LALT in keyTracking or key.RALT in keyTracking
         direction = -1 if self.facing == 'Left' else 1 # multiplier
 
         mode = 'Idle'
@@ -147,9 +189,9 @@ class Player:
 
             if self.step > 15 and self.fallingSpeed < 45:
                 self.fallingSpeed *= 1.1
-            if not isMoving and self.step > 15 and self.fallingSpeed < 120:
+            if (not isMoving or isAttacking or isThrowing) and self.step > 15 and self.fallingSpeed < 180:
                 self.fallingSpeed *= 1.3
-            elif isMoving and self.fallingSpeed > 45:
+            elif isMoving and self.fallingSpeed > 45 and not isAttacking and not isThrowing:
                 self.fallingSpeed = 45
 
             if self.step <= 15 and self.isJumping:
@@ -162,27 +204,53 @@ class Player:
 
             self.step += 1.0
 
+        if isAttacking:
+            mode = 'Jump-Attack' if isJumping else 'Attack'
+        elif isThrowing:
+            mode = 'Jump-Throw' if isJumping else 'Throw'
+            # spawn a throwable kunai
+
         self.playerSprite.x += direction * 100 * (1.5 if isRunning else 1) * (1 if isMoving else 0) * self.dt
 
-
-        self.changeSprite(mode=mode, facing=self.facing)
+        if mode != self.mode:
+            self.changeSprite(mode=mode, facing=self.facing)
         self.updatelabel()
 
     # movement for enemies
     def ai(self, t):
+        level, width, height = self.level, self.width, self.height
         # try walking forwards:
         direction = -1 if self.facing == 'Left' else 1
-        stepX = self.playerSprite.x + 100 * direction * self.dt
+        enemySpeed = 75
+        testX = self.playerSprite.x + enemySpeed * direction * self.dt
 
         # if edge, turn around
+        coordX = testX // width # get this number from somewhere else
+        coordY = self.playerSprite.y // height
 
+        # check for a wall
+        if coordY + 1 in level:
+            if coordX in level[coordY + 1]:
+                self.facing = 'Left' if self.facing == 'Right' else 'Right'
+                self.changeSprite(mode='Run', facing=self.facing)
+        # check for a floor
+        if coordY - 1 in level:
+            if coordX not in level[coordY - 1]:
+                self.facing = 'Left' if self.facing == 'Right' else 'Right'
+                self.changeSprite(mode='Run', facing=self.facing)
         
+        direction = -1 if self.facing == 'Left' else 1
+        self.playerSprite.x += enemySpeed * direction * self.dt
+            
     # Draw our character
     def draw(self, t=0, keyTracking={}, *other):
         self.dt = t - self.t
         self.t = t
 
-        self.movement(t, keyTracking)
+        if self.playerClass == 'hero':
+            self.movement(t, keyTracking)
+        elif 'enemy' in self.playerClass:
+            self.ai(t)
         self.playerSprite.draw()
         
         if self.position is not None:

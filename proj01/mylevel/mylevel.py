@@ -21,7 +21,10 @@ class Level:
         # Store the loaded sprites and hero
         self.sprites = sprites
         self.hero    = hero
+        self.hero.set_level(config.level, config.height, config.width)
         self.enemies = enemies
+        for enemy in self.enemies:
+            enemy.set_level(config.level, config.height, config.width)
 
         # Music in the Background
         self.backgroundMusic = pyglet.media.Player()
@@ -53,11 +56,11 @@ class Level:
 
         # Draw the enemies
         for enemy in self.enemies:
-            enemy.collide(config.level, config.height, config.width)
+            enemy.collide()
             enemy.draw(t)
 
         # Draw the hero.
-        self.hero.collide(config.level, config.height, config.width)
+        self.hero.collide(self.enemies)
         self.hero.draw(t, keyTracking)
 
 # Load all game sprites
@@ -98,7 +101,7 @@ enemyConfigs = ()
 
 enemies = [Player(gameSprites,
               sprites.buildSprite,
-              f"enemy-{e[1]}", "Idle", "Right",
+              f"enemy-{e[1]}", "Run", "Right",
               config.playerSpriteSpeed,
               config.playerSpriteScale,
               True,
