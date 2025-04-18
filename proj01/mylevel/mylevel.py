@@ -98,13 +98,13 @@ enemyConfigs = ()
 
 enemies = [Player(gameSprites,
               sprites.buildSprite,
-              "enemy-1", "Idle", "Right",
+              f"enemy-{e[1]}", "Idle", "Right",
               config.playerSpriteSpeed,
               config.playerSpriteScale,
               True,
-              config.playerStartCol * config.width,
-              config.playerStartRow * config.height, 
-              sounds=enemySounds) for _ in range(1)]
+              x * config.width,
+              y * config.height, 
+              sounds=enemySounds) for x,y,e in config.enemies]
 
 # provide the level to the game engine
 print('Starting level:', config.levelName)
