@@ -21,7 +21,10 @@ class Level:
         # Store the loaded sprites and hero
         self.sprites = sprites
         self.hero    = hero
+        self.weapons = []
         self.hero.set_level(config.level, config.height, config.width)
+        self.hero.set_weapon_factory(self.weapon_spawner)
+        
         self.enemies = enemies
         for enemy in self.enemies:
             enemy.set_level(config.level, config.height, config.width)
@@ -54,14 +57,34 @@ class Level:
         # Draw the gameboard
         self.drawBoard(config.level, 0, 0, config.height, config.width)
 
+        # Draw the weapons
+        for weapon in self.weapons:
+            weapon.draw()
+
         # Draw the enemies
         for enemy in self.enemies:
-            enemy.collide()
+            enemy.collide(self.weapons)
             enemy.draw(t)
 
         # Draw the hero.
         self.hero.collide(self.enemies)
         self.hero.draw(t, keyTracking)
+
+    def weapon_spawner(self, direction, x, y):
+        global gameSprites
+        print(f'Spawned weapon facing {direction} at ({x},{y})')
+
+        weapon = Player(gameSprites,
+                        sprites.buildSprite,
+                        'weapon', 'Kunai', direction,
+                        config.playerSpriteSpeed,
+                        config.playerSpriteScale,
+                        False,
+                        x,
+                        y
+                        )
+
+        self.weapons.append(weapon)
 
 # Load all game sprites
 print('Loading Sprites...')

@@ -1,4 +1,4 @@
-#!/usr/bin/python3 -B
+#!/usr/bin/env python3
 
 # Important Libraries
 import pyglet
@@ -79,6 +79,7 @@ class Game:
             # a variable.
             if self.level is not None:
                 self.level.draw(self.worldTime, self.width, self.height, self.keyTracking, self.mouseTracking)
+
 
 # Load in any requested objects from the command then, then start the game.
 if __name__ == '__main__':

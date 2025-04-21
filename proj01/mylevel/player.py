@@ -16,12 +16,14 @@ class Player:
                        loop=True,
                        x=380,
                        y=250,
-                       sounds=None):
+                       sounds={}):
 
         # Store the sprites, and the sprite building function
         self.sprites      = sprites
         self.buildSprite  = buildSprite
         self.playerSprite = None
+        self.attackBlock  = False
+        self.weapon_factory = lambda *args: print(f'null_func({args})')
 
         # number of hits the hero can take
         self.hp = 100
@@ -43,17 +45,20 @@ class Player:
         self.position       = None
         self.isAttacking    = None
 
+        # save the sounds
+        self.sounds = sounds
+
         # Build the starting character sprite
         self.changeSprite()
 
         # keep track of the time locally
         self.t = 0
         self.dt = 0
-
-        # save the sounds
-        self.sounds =  sounds
-
+      
         self.updatelabel()
+
+    def set_weapon_factory(self, factory):
+        self.weapon_factory = factory
 
     def set_level(self, level, width, height):
         self.level = level
@@ -67,6 +72,9 @@ class Player:
 
     # for collision detection
     def collide(self, enemies=[]):
+        if self.hp <= 0:
+            return
+
         level, width, height = self.level, self.width, self.height
         testY = self.playerSprite.y
         testX = self.playerSprite.x 
@@ -102,14 +110,25 @@ class Player:
             ex,ey = enemy.getX(), enemy.getY()
             gridEX = ex // width
             gridEY = ey // height
-            coordX = getX() // width
-            coordY = getY() // height
+            coordX = self.getX() // width
+            coordY = self.getY() // height
 
             # player can sustain 2 hits
+            if coordX == gridEX and coordY+1 == gridEY:
+                if self.isAttacking:
+                    print('Enemy took damage: dead')
+                    enemy.hit(100)
+                elif not enemy.hp <= 0: # cannot take damage from a dead enemy
+                    print(f'Hero took damage: {self.hp=} at {coordX},{coordY}')
+                    self.hit(50)
             
 
     def manageDeath(self):
-        pass
+        if self.mode == 'Dead':
+            return
+        print(f'{self.playerClass} died')
+        self.mode = 'Dead'
+        self.changeSprite(self.mode, self.facing)
 
     def hit(self, points):
         self.hp -= points
@@ -140,9 +159,13 @@ class Player:
                                              self.facing,
                                              self.animationSpeed,
                                              self.animationScale,
-                                             self.animationLoop,
+                                             self.animationLoop if mode != 'Dead' else False,
                                              self.animationX,
                                              self.animationY)
+        
+        if mode in self.sounds:
+            # play the sound
+            self.sounds[mode].play()
 
     # figure out which animation should be showing
     def interpretAnimation(self, keyTracking={}):
@@ -168,8 +191,8 @@ class Player:
         isMoving  = key.LEFT in keyTracking or key.RIGHT in keyTracking
         isJumping = key.SPACE in keyTracking 
         isRunning = (key.LSHIFT in keyTracking or key.RSHIFT in keyTracking) and isMoving
-        isAttacking = key.LCTRL in keyTracking or key.RCTRL in keyTracking
-        isThrowing  = key.LALT in keyTracking or key.RALT in keyTracking
+        self.isAttacking = key.LCTRL in keyTracking or key.RCTRL in keyTracking
+        self.isThrowing  = key.LALT in keyTracking or key.RALT in keyTracking
         direction = -1 if self.facing == 'Left' else 1 # multiplier
 
         mode = 'Idle'
@@ -189,9 +212,9 @@ class Player:
 
             if self.step > 15 and self.fallingSpeed < 45:
                 self.fallingSpeed *= 1.1
-            if (not isMoving or isAttacking or isThrowing) and self.step > 15 and self.fallingSpeed < 180:
+            if (not isMoving or self.isAttacking or self.isThrowing) and self.step > 15 and self.fallingSpeed < 180:
                 self.fallingSpeed *= 1.3
-            elif isMoving and self.fallingSpeed > 45 and not isAttacking and not isThrowing:
+            elif isMoving and self.fallingSpeed > 45 and not self.isAttacking and not self.isThrowing:
                 self.fallingSpeed = 45
 
             if self.step <= 15 and self.isJumping:
@@ -204,11 +227,12 @@ class Player:
 
             self.step += 1.0
 
-        if isAttacking:
+        if self.isAttacking:
             mode = 'Jump-Attack' if isJumping else 'Attack'
-        elif isThrowing:
+        elif self.isThrowing:
             mode = 'Jump-Throw' if isJumping else 'Throw'
             # spawn a throwable kunai
+            self.weapon_factory(self.facing, self.playerSprite.x, self.playerSprite.y+50)
 
         self.playerSprite.x += direction * 100 * (1.5 if isRunning else 1) * (1 if isMoving else 0) * self.dt
 
@@ -242,15 +266,23 @@ class Player:
         direction = -1 if self.facing == 'Left' else 1
         self.playerSprite.x += enemySpeed * direction * self.dt
             
+    # move the weapon along
+    def moveWeapon(self):
+        speed = 10
+        self.playerSprite.x += (-1 if self.facing == 'Left' else 1) * speed * self.dt
+
     # Draw our character
     def draw(self, t=0, keyTracking={}, *other):
         self.dt = t - self.t
         self.t = t
 
-        if self.playerClass == 'hero':
-            self.movement(t, keyTracking)
-        elif 'enemy' in self.playerClass:
-            self.ai(t)
+        if not self.mode == 'Dead':
+            if self.playerClass == 'hero':
+                self.movement(t, keyTracking)
+            elif 'enemy' in self.playerClass:
+                self.ai(t)
+            elif 'weapon' == self.playerClass:
+                self.moveWeapon()
         self.playerSprite.draw()
         
         if self.position is not None:
