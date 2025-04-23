@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 # Important Libraries
-import pyglet
+import pyglet, copy
+from pyglet.gl import *
 
 # Our own Game Libraries
 import sprites, config
@@ -36,6 +37,8 @@ class Level:
         self.backgroundMusic.loop = True
         self.backgroundMusic.play()
 
+        self.t = 0
+
     # Here is a complete drawBoard function which will draw the terrain.
     # Lab Part 1 - Draw the board here
     def drawBoard(self, level, delta_x=0, delta_y=0, height=50, width=50):
@@ -46,45 +49,47 @@ class Level:
                 y = int(row) * height + delta_y
                 img.blit(x,y,width=width, height=height)
 
-    def draw(self, t=0, width=800, height=600, keyTracking={}, mouseTracking=[], *other):
-
+    def draw(self, t, width=800, height=600, keyTracking={}, mouseTracking=[], *other):
+        dt = t - self.t
+        self.t = t
         # Draw the game background
         if self.background.width < width:
             self.background.blit(self.background_x,self.background_y,height=height,width=width)
         else:
             self.background.blit(self.background_x,self.background_y,height=height)
 
+        # check for the hero position inside a squashed frame
+        # if outside: move the window background
+        glTranslatef(dt*-10,0.0, 0.0)        
+
         # Draw the gameboard
         self.drawBoard(config.level, 0, 0, config.height, config.width)
 
         # Draw the weapons
-        for i, weapon in enumerate(self.weapons):
-            # bad debug code
-            print(f'[weapon-{i}] {weapon.playerSprite.x}\t{weapon.playerSprite.y}')
-            # end debug code
-            weapon.draw(t)
+        for weapon in self.weapons:
+            weapon.draw(dt)
 
         # Draw the enemies
         for enemy in self.enemies:
             enemy.collide(self.weapons)
-            enemy.draw(t)
+            enemy.draw(dt)
 
         # Draw the hero.
         self.hero.collide(self.enemies)
-        self.hero.draw(t, keyTracking)
+        self.hero.draw(dt, keyTracking)
 
     def weapon_spawner(self, direction, x, y):
-        global gameSprites
-        print(f'[weapon_spawner] Spawned weapon facing {direction} at ({x},{y})')
+        # print(f'[weapon_spawner] Spawned weapon facing {direction} at ({x},{y})')
 
-        weapon = Player(gameSprites,
+        deepcopy = sprites.loadAllImages(config.spritespath)
+        weapon = Player(deepcopy,
                         sprites.buildSprite,
                         'weapon', 'Kunai', direction,
                         config.playerSpriteSpeed,
                         config.playerSpriteScale,
                         False,
-                        x,
-                        y
+                        x=x,
+                        y=y
                         )
 
         self.weapons.append(weapon)

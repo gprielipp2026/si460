@@ -45,6 +45,8 @@ class Player:
         self.isMoving       = False
         self.position       = None
         self.isAttacking    = None
+        self.damageBlock    = False
+        self.damageUnblock  = 0
 
         # save the sounds
         self.sounds = sounds
@@ -247,19 +249,23 @@ class Player:
             self.step += 1.0
         if not self.attackBlock:
             if self.isAttacking:
+                # cannot sword attack immediately after throwing
                 mode = 'Jump-Attack' if isJumping else 'Attack'
             elif self.isThrowing:
+                # cannot throw immediately after throwing
                 mode = 'Jump-Throw' if isJumping else 'Throw'
                 # spawn a throwable kunai
                 if not self.attackBlock:
-                    #print('Spawning weapon') 
-                    x = self.playerSprite.x + self.playerSprite.width/2.0 
+                    x = self.playerSprite.x + direction * (self.playerSprite.width / 2.0)
                     y = self.playerSprite.y + self.playerSprite.height/2.0 
                     self.weapon_factory(self.facing, x, y)
                     self.attackBlock = True
-                    self.attackUnblock = 1.5 + self.t
+                    self.attackUnblock = 1.0 + self.t
 
         self.playerSprite.x += direction * 100 * (1.5 if isRunning else 1) * (1 if isMoving else 0) * self.dt
+
+        if self.playerSprite.y <= -200:
+            mode = "Dead"
 
         if mode != self.mode:
             self.changeSprite(mode=mode, facing=self.facing)
@@ -293,25 +299,22 @@ class Player:
             
     # move the weapon along
     def moveWeapon(self):
-        speed = 50 
+        speed = 150
         self.playerSprite.x += (-1 if self.facing == 'Left' else 1) * speed * self.dt
-        #print(f'[moveWeapon] at pos {self.playerSprite.x}')
 
     # Draw our character
-    def draw(self, t=0, keyTracking={}, *other):
-        self.dt = t - self.t
-        self.t = t
+    def draw(self, dt, keyTracking={}, *other):
+        self.dt = dt
+        self.t += dt
         
-        #print(f'[draw] can{"not" if self.attackBlock else ""} attack')
-
         if self.t >= self.attackUnblock:
             self.attackBlock = False
 
         if not self.mode == 'Dead':
             if self.playerClass == 'hero':
-                self.movement(t, keyTracking)
+                self.movement(dt, keyTracking)
             elif 'enemy' in self.playerClass:
-                self.ai(t)
+                self.ai(dt)
             elif 'weapon' in self.playerClass:
                 self.moveWeapon()
 

@@ -23,12 +23,12 @@ levelDefinition = '''
 08
 07                   hl hm hm hm hm hm hm hm hr
 06
-05          hl hr
-04
-03 um ur
-02 mm mr
-01 mm cr wl um um um um um um um um ur
-00 mm mm mm mm mm mm mm mm mm mm mm mr
+05          hl hr          
+04                         um
+03 um ur                   um
+02 mm mr                ul um
+01 mm cr wl um um um um um um um um um um um um ur
+00 mm mm mm mm mm mm mm mm mm mm mm um um um um mr
 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16
 '''
 
