@@ -58,8 +58,11 @@ class Level:
         self.drawBoard(config.level, 0, 0, config.height, config.width)
 
         # Draw the weapons
-        for weapon in self.weapons:
-            weapon.draw()
+        for i, weapon in enumerate(self.weapons):
+            # bad debug code
+            print(f'[weapon-{i}] {weapon.playerSprite.x}\t{weapon.playerSprite.y}')
+            # end debug code
+            weapon.draw(t)
 
         # Draw the enemies
         for enemy in self.enemies:
@@ -72,7 +75,7 @@ class Level:
 
     def weapon_spawner(self, direction, x, y):
         global gameSprites
-        print(f'Spawned weapon facing {direction} at ({x},{y})')
+        print(f'[weapon_spawner] Spawned weapon facing {direction} at ({x},{y})')
 
         weapon = Player(gameSprites,
                         sprites.buildSprite,

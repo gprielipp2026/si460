@@ -23,6 +23,7 @@ class Player:
         self.buildSprite  = buildSprite
         self.playerSprite = None
         self.attackBlock  = False
+        self.attackUnblock = 0.0
         self.weapon_factory = lambda *args: print(f'null_func({args})')
 
         # number of hits the hero can take
@@ -103,25 +104,43 @@ class Player:
                             coordX = maxX // width
             if testY <= (coordY+1) * height and coordY + 1 in level and coordX in level[coordY + 1]:
                 self.playerSprite.y = (coordY + 1)* height
+        else:
+            # if you're outside the box, fall
+            self.isFalling = True
 
         # check collisions of the enemies
 
         for enemy in enemies:
             ex,ey = enemy.getX(), enemy.getY()
-            gridEX = ex // width
-            gridEY = ey // height
-            coordX = self.getX() // width
-            coordY = self.getY() // height
+            x, y  = self.playerSprite.x, self.playerSprite.y
+            w1, h1 = enemy.playerSprite.width, enemy.playerSprite.height
+            w2, h2 = self.playerSprite.width, self.playerSprite.height
+            # (left, right, bottom, top)
+            r1 = ( ex - w1/2.0, ex + w1/2.0, ey,  ey+h1 )
+            r2 = ( x - w2/2.0, x + w2/2.0, y,  y+h2)
 
             # player can sustain 2 hits
-            if coordX == gridEX and coordY+1 == gridEY:
+            if self.overlapping(r1, r2):
+                #print(f'[colliding] {self.playerClass} collided with {enemy.playerClass}')
                 if self.isAttacking:
-                    print('Enemy took damage: dead')
                     enemy.hit(100)
+                    #print('Enemy took damage: dead')
                 elif not enemy.hp <= 0: # cannot take damage from a dead enemy
-                    print(f'Hero took damage: {self.hp=} at {coordX},{coordY}')
                     self.hit(50)
-            
+                    #print(f'Hero took damage: {self.hp=} at {r1}\t{r2}')
+           
+    # check if two rectangles are overlapping
+    # defined each as: (left, right, bottom, top
+    def overlapping(self, rect1, rect2):
+        l1, r1, b1, t1 = rect1
+        l2, r2, b2, t2 = rect2
+
+        left   = l2 <= l1 <= r2
+        right  = l2 <= r1 <= r2
+        bottom = b2 <= b1 <= t2
+        top    = b2 <= t1 <= t2
+
+        return (left or right) and (bottom or top)
 
     def manageDeath(self):
         if self.mode == 'Dead':
@@ -226,13 +245,19 @@ class Player:
                 self.isJumping = False
 
             self.step += 1.0
-
-        if self.isAttacking:
-            mode = 'Jump-Attack' if isJumping else 'Attack'
-        elif self.isThrowing:
-            mode = 'Jump-Throw' if isJumping else 'Throw'
-            # spawn a throwable kunai
-            self.weapon_factory(self.facing, self.playerSprite.x, self.playerSprite.y+50)
+        if not self.attackBlock:
+            if self.isAttacking:
+                mode = 'Jump-Attack' if isJumping else 'Attack'
+            elif self.isThrowing:
+                mode = 'Jump-Throw' if isJumping else 'Throw'
+                # spawn a throwable kunai
+                if not self.attackBlock:
+                    #print('Spawning weapon') 
+                    x = self.playerSprite.x + self.playerSprite.width/2.0 
+                    y = self.playerSprite.y + self.playerSprite.height/2.0 
+                    self.weapon_factory(self.facing, x, y)
+                    self.attackBlock = True
+                    self.attackUnblock = 1.5 + self.t
 
         self.playerSprite.x += direction * 100 * (1.5 if isRunning else 1) * (1 if isMoving else 0) * self.dt
 
@@ -268,21 +293,28 @@ class Player:
             
     # move the weapon along
     def moveWeapon(self):
-        speed = 10
+        speed = 50 
         self.playerSprite.x += (-1 if self.facing == 'Left' else 1) * speed * self.dt
+        #print(f'[moveWeapon] at pos {self.playerSprite.x}')
 
     # Draw our character
     def draw(self, t=0, keyTracking={}, *other):
         self.dt = t - self.t
         self.t = t
+        
+        #print(f'[draw] can{"not" if self.attackBlock else ""} attack')
+
+        if self.t >= self.attackUnblock:
+            self.attackBlock = False
 
         if not self.mode == 'Dead':
             if self.playerClass == 'hero':
                 self.movement(t, keyTracking)
             elif 'enemy' in self.playerClass:
                 self.ai(t)
-            elif 'weapon' == self.playerClass:
+            elif 'weapon' in self.playerClass:
                 self.moveWeapon()
+
         self.playerSprite.draw()
         
         if self.position is not None:
