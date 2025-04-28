@@ -47,6 +47,7 @@ class Player:
         self.isAttacking    = None
         self.damageBlock    = False
         self.damageUnblock  = 0
+        self.gameOver        = False
 
         # save the sounds
         self.sounds = sounds
@@ -72,6 +73,15 @@ class Player:
         if self.playerClass == "hero":
             x,y=self.playerSprite.x, self.playerSprite.y
             self.position = pyglet.text.Label(f'({x:.2f}, {y:.2f}) => ({x//50},{y//50})',x=100,y=580) # hard coded numbers
+
+    def hitgoal(self, goals):
+        for row in goals.keys():
+            for col in goals[row].keys():
+                checkRow, checkCol = self.playerSprite.y // self.height, self.playerSprite.x // self.width
+                print(f'({row},{col}) == ({checkRow},{checkCol})')
+                if row == checkRow and checkCol == col:
+                    self.sounds['win'].play()
+                    self.gameOver = True                
 
     # for collision detection
     def collide(self, enemies=[]):
@@ -304,6 +314,9 @@ class Player:
 
     # Draw our character
     def draw(self, dt, keyTracking={}, *other):
+        if self.gameOver:
+            return
+
         self.dt = dt
         self.t += dt
         

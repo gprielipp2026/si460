@@ -23,26 +23,26 @@ levelDefinition = '''
 08
 07                   hl hm hm hm hm hm hm hm hr
 06
-05          hl hr          
-04                         um
-03 um ur                   um
-02 mm mr                ul um
-01 mm cr wl um um um um um um um um um um um um ur
-00 mm mm mm mm mm mm mm mm mm mm mm um um um um mr
+05          hl hr          ul ur
+04                         ml mr
+03 um ur                   ml mr    hl hm hr
+02 mm mr                   ml mr
+01 mm cr wl um um um um wr cl cr wl um um um um ur
+00 mm mm mm mm mm mm mm mm mm mm mm mm mm mm mm mr
 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16
 '''
 
 # Define the objects
 goalDefinition = '''
-11                                        sm
-10
+11                                        
+10 sm
 09
 08
 07
 06
 05
-04
-03
+04                                  sm
+03                                     
 02
 01
 00
@@ -58,9 +58,9 @@ enemyDefinition = '''
 07
 06
 05
-04
+04 e2
 03
-02             e2
+02             
 01
 00
 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16
@@ -68,7 +68,7 @@ enemyDefinition = '''
 
 # Define where the player will start on the board
 playerStartRow = 2
-playerStartCol = 9
+playerStartCol = 8
 
 # Define the scaling for the player, and speed of the shifts between
 # the various sprites that make up the players.
@@ -92,7 +92,8 @@ sounds = {'hero':{'Jump':        levelName + '/music/jump.wav',
                   'Jump-Attack': levelName + '/music/jump.wav',
                   'Jump-Throw':  levelName + '/music/throw.wav',
                   'Throw':       levelName + '/music/throw.wav',
-                  'Dead':        levelName + '/music/hero_death.wav'  },
+                  'Dead':        levelName + '/music/hero_death.wav',
+                  'win':         levelName + '/music/win.wav'  },
           'enemy-1': {'Dead':    levelName + '/music/enemy_death.wav' },
           'enemy-2': {'Dead':    levelName + '/music/enemy_death.wav' } }
 

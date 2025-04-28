@@ -9,7 +9,7 @@ import sprites, config
 
 # SI460 Level Definition
 class Level:
-    def __init__(self, sprites, hero, enemies=[]):
+    def __init__(self, sprites, hero, enemies=[], goals=[]):
 
         # Create the Background, this is one method of creating images,
         # we will work with multiple methods.
@@ -25,6 +25,7 @@ class Level:
         self.weapons = []
         self.hero.set_level(config.level, config.height, config.width)
         self.hero.set_weapon_factory(self.weapon_spawner)
+        self.goals = goals
         
         self.enemies = enemies
         for enemy in self.enemies:
@@ -48,6 +49,12 @@ class Level:
                 x = int(col) * width  + delta_x
                 y = int(row) * height + delta_y
                 img.blit(x,y,width=width, height=height)
+        
+        for row in self.goals.keys():
+            for col, img in self.goals[row].items():
+                x = int(col) * width  + delta_x
+                y = int(row) * height + delta_y
+                img.blit(x, y, width=width, height=height)
 
     def draw(self, t, width=800, height=600, keyTracking={}, mouseTracking=[], *other):
         dt = t - self.t
@@ -76,7 +83,9 @@ class Level:
 
         # Draw the hero.
         self.hero.collide(self.enemies)
+        self.hero.hitgoal(self.goals)
         self.hero.draw(dt, keyTracking)
+
 
     def weapon_spawner(self, direction, x, y):
         # print(f'[weapon_spawner] Spawned weapon facing {direction} at ({x},{y})')
@@ -117,7 +126,7 @@ hero = Player(gameSprites,
               config.playerSpriteSpeed,
               config.playerSpriteScale,
               True,
-              config.playerStartCol * config.width,
+              config.playerStartCol * config.width - 25,
               config.playerStartRow * config.height,
               sounds=heroSounds)
 
@@ -142,4 +151,4 @@ enemies = [Player(gameSprites,
 
 # provide the level to the game engine
 print('Starting level:', config.levelName)
-level = Level(gameSprites, hero, enemies)
+level = Level(gameSprites, hero, enemies, config.goals)
