@@ -17,7 +17,7 @@ class Player:
                        x=380,
                        y=250,
                        sounds={}):
-
+        
         # Store the sprites, and the sprite building function
         self.sprites      = sprites
         self.buildSprite  = buildSprite
@@ -78,9 +78,9 @@ class Player:
         for row in goals.keys():
             for col in goals[row].keys():
                 checkRow, checkCol = self.playerSprite.y // self.height, self.playerSprite.x // self.width
-                print(f'({row},{col}) == ({checkRow},{checkCol})')
-                if row == checkRow and checkCol == col:
-                    self.sounds['win'].play()
+                #print(f'({row},{col}) == ({checkRow},{checkCol})')
+                if row == checkRow and checkCol == col and not self.gameOver:
+                    self.sounds['Win'][random.randint(0,len(self.sounds['Win'])-1)].play()
                     self.gameOver = True                
 
     # for collision detection
@@ -196,7 +196,7 @@ class Player:
         
         if mode in self.sounds:
             # play the sound
-            self.sounds[mode].play()
+            self.sounds[mode][random.randint(0, len(self.sounds[mode])-1)].play()
 
     # figure out which animation should be showing
     def interpretAnimation(self, keyTracking={}):
@@ -333,6 +333,6 @@ class Player:
 
         self.playerSprite.draw()
         
-        if self.position is not None:
-            self.position.draw()
+        #if self.position is not None:
+            #self.position.draw()
 

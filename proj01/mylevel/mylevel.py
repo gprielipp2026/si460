@@ -18,7 +18,7 @@ class Level:
         self.background   = pyglet.resource.image(config.background)
         self.background_x = 0
         self.background_y = 0
-
+        
         # Store the loaded sprites and hero
         self.sprites = sprites
         self.hero    = hero
@@ -59,16 +59,15 @@ class Level:
     def draw(self, t, width=800, height=600, keyTracking={}, mouseTracking=[], *other):
         dt = t - self.t
         self.t = t
-        # Draw the game background
-        if self.background.width < width:
-            self.background.blit(self.background_x,self.background_y,height=height,width=width)
-        else:
-            self.background.blit(self.background_x,self.background_y,height=height)
-
+        
         # check for the hero position inside a squashed frame
         # if outside: move the window background
-        glTranslatef(dt*-10,0.0, 0.0)        
-
+        glTranslatef(dt*-30,0.0, 0.0)        
+        self.background_x = 0
+        # Draw the game background
+        while self.background_x + width <= 5*width:
+            self.background.blit(self.background_x,self.background_y,height=height, width = width)
+            self.background_x += width 
         # Draw the gameboard
         self.drawBoard(config.level, 0, 0, config.height, config.width)
 
@@ -111,13 +110,16 @@ gameSprites = sprites.loadAllImages(config.spritespath)
 print('Loading the Hero...')
 from player import Player
 
-load = lambda x: pyglet.media.load(f'mylevel/music/{x}.wav', streaming=False)
+load = lambda fn: pyglet.media.load(f'mylevel/music/{fn}.wav', streaming=False)
+
 heroSounds = {
-    'attack': [load('attack')],
-    'jump': [load('jump'), load('jump2')],
-    'throw': [load('throw')],
-    'win': [load('win')],
-    'lose': [load('hero_death')]
+    'Attack': [load('attack')],
+    'Jump': [load('jump'), load('jump2')],
+    'Jump-Attack': [load('attack')],
+    'Throw': [load('throw')],
+    'Jump-Throw': [load('throw')],
+    'Win': [load('win')],
+    'Dead': [load('hero_death')]
 }
 
 hero = Player(gameSprites,
